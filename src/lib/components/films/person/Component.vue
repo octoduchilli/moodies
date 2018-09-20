@@ -2,7 +2,7 @@
   <div class="person">
     <section class="row">
       <div class="half flex justi-center align-center">
-        <img class="person-poster pointer" @click="images.selected === person.images.profiles.length - 1 ? images.selected = 0 : images.selected++" :src="w500(person.images.profiles[images.selected].file_path, null)" onerror="this.src = '/static/img/buttons/picture-white.png'; this.style.opacity = '.3'">
+        <img class="person-poster pointer" v-if="person.images.profiles.length > 0" @click="images.selected === person.images.profiles.length - 1 ? images.selected = 0 : images.selected++" :src="w500(person.images.profiles[images.selected].file_path, null)" onerror="this.src = '/static/img/buttons/picture-white.png'; this.style.opacity = '.3'">
       </div>
       <div class="half column">
         <h1 class="title-detail">{{person.name}}</h1>
