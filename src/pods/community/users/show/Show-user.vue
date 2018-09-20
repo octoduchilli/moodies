@@ -17,9 +17,23 @@
         </li>
       </ul>
     </nav>
-    <div v-if="__user.view.type === 'poster' || __user.view.type === 'poster-buttons'" class="wrap align-center justi-cente pad-left">
+    <div v-if="__user.view.type === 'poster' || __user.view.type === 'poster-buttons'" class="wrap align-center justi-center pad-left">
       <p class="margin-10">Afficher les boutons : </p>
       <basic-on-off-button class="margin-10" :button="buttons.showButtons"/>
+    </div>
+    <div v-if="__currentUser.uid" class="column align-center pad-left margin-10">
+      <p>Comparer la liste de {{__user.pseudo || '...'}} à la vôtre : </p>
+      <p class="margin-0" style="font-size: 10px; color: grey">Tout les films sont visibles par défaut.</p>
+      <div class="row justi-between align-center" style="min-width: 220px">
+        <p class="margin-10">VUS</p>
+        <basic-on-off-button class="margin-10" :button="__user.view.compareList.viewed"/>
+      </div>
+      <p class="margin-0" style="font-size: 10px; color: grey; height: 11px">{{__user.view.compareList.viewed.on ? 'Affiche les films que vous avez vus uniquement.' : null}}</p>
+      <div class="row justi-between align-center" style="min-width: 220px">
+        <p class="margin-10">NON VUS</p>
+        <basic-on-off-button class="margin-10" :button="__user.view.compareList.notViewed"/>
+      </div>
+      <p class="margin-0" style="font-size: 10px; color: grey; height: 11px">{{__user.view.compareList.notViewed.on ? 'Affiche les films que vous n\'avez pas vus uniquement.' : null}}</p>
     </div>
     <ul class="actived-filters-list basic-list justi-center" :class="[__window.width > 500 ? 'wrap' : 'column align-center']">
       <p class="text-center flex justi-center align-center" v-if="__activedFilters.length > 0">Liste triée selon :</p>
@@ -184,6 +198,9 @@ export default {
     __body () {
       return this.$store.state.body
     },
+    __currentUser () {
+      return this.$store.state.user
+    },
     __user () {
       return this.$store.state.community.user
     },
@@ -245,10 +262,29 @@ export default {
         this.__user.view.type = 'poster'
       }
     },
+    '__user.view.compareList.viewed.on' (on) {
+      if (on) {
+        this.__user.view.compareList.notViewed.on = false
+        this.setCurrentFilmList()
+        this.initListWithActivedFilters()
+      } else if (!this.__user.view.compareList.notViewed.on) {
+        this.setCurrentFilmList()
+        this.initListWithActivedFilters()
+      }
+    },
+    '__user.view.compareList.notViewed.on' (on) {
+      if (on) {
+        this.__user.view.compareList.viewed.on = false
+        this.setCurrentFilmList()
+        this.initListWithActivedFilters()
+      } else if (!this.__user.view.compareList.viewed.on) {
+        this.setCurrentFilmList()
+        this.initListWithActivedFilters()
+      }
+    },
     '__user.films.all' (all) {
-      this.setCurrentFilmList()
-
       if (all.length === this.__user.buttons.length) {
+        this.setCurrentFilmList()
         this.initListWithActivedFilters()
       }
     },
@@ -290,6 +326,7 @@ export default {
       let name = this.__user.filters.name.text
       let sort = this.__user.filters.sort
       let genre = this.__user.filters.genre.items[this.__user.filters.genre.choose].value
+      let compareList = this.__user.view.compareList
 
       user.filters.click.forEach(filter => {
         user.buttons.forEach(film => {
@@ -380,6 +417,34 @@ export default {
             if (g) {
               finded.push(_)
             }
+          }
+        })
+      }
+
+      if (compareList.viewed.on) {
+        let save = finded
+        let currentUser = this.__currentUser
+        let currentUserButtonsViewed = this.__currentUser.buttons.filter(_ => _.buttons.find(a => a.id === 1))
+
+        finded = []
+
+        save.forEach(_ => {
+          let f = currentUserButtonsViewed.find(a => String(a.id) === String(_.id))
+          if (f) {
+            finded.push(_)
+          }
+        })
+      } else if (compareList.notViewed.on) {
+        let save = finded
+        let currentUser = this.__currentUser
+        let currentUserButtonsViewed = this.__currentUser.buttons.filter(_ => _.buttons.find(a => a.id === 1))
+
+        finded = []
+
+        save.forEach(_ => {
+          let f = currentUserButtonsViewed.find(a => String(a.id) === String(_.id))
+          if (!f) {
+            finded.push(_)
           }
         })
       }
