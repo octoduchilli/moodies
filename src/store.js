@@ -116,7 +116,17 @@ export default new Vuex.Store({
         buttons: [],
         view: {
           type: 'poster',
-          page: 1
+          page: 1,
+          compareList: {
+            viewed: {
+              on: false,
+              label: 'compare-list-viewed'
+            },
+            notViewed: {
+              on: false,
+              label: 'compare-list-not-viewed'
+            }
+          }
         },
         filters: {
           actived: [],
