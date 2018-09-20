@@ -208,7 +208,6 @@ export default {
   methods: {
     checkVote () {
       db.ref(`users/${this.__user.uid}/rate/${this.film.id}`).once('value', snap => {
-        console.log(snap.val())
         if (!snap.val()) {
           this.rate.mouseover = 0
         } else {
