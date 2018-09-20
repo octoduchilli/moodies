@@ -9,7 +9,7 @@
       </p>
     </header>
     <div class="margin-20 column align-start">
-      <h1 class="text-center padding-10 width">Communauté de Moodies</h1>
+      <h1 class="text-center padding-10" style="width: calc(100% - 20px)">Communauté de Moodies</h1>
       <h2 class="padding-10 margin-0">Retrouvez votre profil et ceux de vos amis</h2>
       <p class="padding-10 margin-0">Pour retrouver votre profil dans la liste des utilisateurs de Moodies nous vous invitons à définir votre pseudo.</p>
       <router-link to="/account/informations" class="link color-yellow hover-bg-yellow padding-10" style="margin: 10px 0;">
