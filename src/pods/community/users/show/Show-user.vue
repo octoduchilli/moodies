@@ -1,12 +1,11 @@
 <template>
   <div class="show-user column align-center width">
     <header class="show-user-header flex text-center justi-center align-center">
-      <p class="margin-0 padding-10">
-        {{`${minToMDHM(__totalRuntime)} - ${__user.films.actived.length} films`}}
-      </p>
+      <p class="margin-0 padding-10">{{`${minToMDHM(__totalRuntime)} - ${__user.films.actived.length} films`}}</p>
     </header>
     <filters-pannel/>
     <h1 class="pad-left text-center">{{privateAccount ? 'Compte privé' : fetch ? 'Un instant...' : __user.pseudo ? `Profil de ${__user.pseudo}` : null}}</h1>
+    <p v-if="!privateAccount && lastActivity" class="text-center pad-left"><span style="color: grey; font-size: 10px; margin-right: 5px">Dernière activité :</span>{{lastActivity | moment("Do MMMM YYYY à H:mm")}}</p>
     <nav class="nav-top-show-user row justi-center align-center">
       <ul class="buttons-list basic-list row align-center">
         <li :style="{'border-radius': __user.view.type === 'poster' || __user.view.type === 'poster-buttons' ? '5px' : null}" class="button" @click="__user.view.type = 'poster'">
@@ -22,7 +21,7 @@
       <basic-on-off-button class="margin-10" :button="buttons.showButtons"/>
     </div>
     <div v-if="__currentUser.uid" class="column align-center pad-left margin-10">
-      <p>Comparer la liste de {{__user.pseudo || '...'}} à la vôtre : </p>
+      <p>Comparez la liste de {{__user.pseudo || '...'}} à la vôtre : </p>
       <p class="margin-0" style="font-size: 10px; color: grey">Tout les films sont visibles par défaut.</p>
       <div class="row justi-between align-center" style="min-width: 220px">
         <p class="margin-10">VUS</p>
@@ -74,7 +73,8 @@ export default {
       },
       nextPage: false,
       fetch: false,
-      privateAccount: null
+      privateAccount: null,
+      lastActivity: null
     }
   },
   async created () {
@@ -92,6 +92,7 @@ export default {
         this.__user.pseudo = _.val().pseudoBase
         this.privateAccount = _.val().privateAccount
         privateAccount = _.val().privateAccount
+        this.lastActivity = _.val().activity
       })
     })
 
