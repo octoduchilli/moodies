@@ -5,8 +5,8 @@
         <img src="/static/img/buttons/star-black.png" alt=" ">
       </li>
     </ul>
-    <ul @mouseout="rate.mouseover = rate.click" class="stars basic-list row">
-      <li @mouseover="rate.mouseover = n" @click="rate.click = n" :style="{'opacity': rate.mouseover < n ? '0' : '1'}" class="yellow-star" :class="[n % 2 === 0 ? 'right-part' : 'left-part']" v-for="n in 10" :key="n + '-yellow'">
+    <ul @mouseout="rate.value.mouseover = rate.value.base" class="stars basic-list row">
+      <li @mouseover="rate.value.mouseover = n" @click="rate.value.base = n; rate.click = true" :style="{'opacity': rate.value.mouseover < n ? '0' : '1'}" class="yellow-star" :class="[n % 2 === 0 ? 'right-part' : 'left-part']" v-for="n in 10" :key="n + '-yellow'">
         <img src="/static/img/buttons/star-yellow.png" alt=" ">
       </li>
     </ul>

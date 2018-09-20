@@ -18,7 +18,7 @@
           <div class="column">
             <basic-rate :rate="rate"/>
             <p class="margin-10" v-if="voted">Vote pris en compte !</p>
-            <p class="margin-0" style="font-size: 11px; color: grey; margin-left: 10px" v-if="voted">Le total des notes et la note globale du film peut mettre du temps à s'actualiser.</p>
+            <p class="margin-0" style="font-size: 11px; color: grey; margin-left: 10px" v-if="voted">Le total des votes et la note globale du film peut mettre du temps à s'actualiser.</p>
           </div>
         </div>
         <ul class="film-genres normal-detail no-list-style padding-0" v-if="film.genres">
@@ -79,8 +79,11 @@ export default {
         }
       },
       rate: {
-        click: null,
-        mouseover: null
+        click: false,
+        value: {
+          mouseover: null,
+          base: null
+        }
       },
       trailer: {
         key: null
@@ -189,29 +192,35 @@ export default {
       this.buttons.trailer.back.click = false
     },
     'rate.click' (click) {
-      let date = new Date()
+      if (click) {
+        let date = new Date()
 
-      this.voted = false
+        this.voted = false
 
-      setTimeout(() => {
-        this.$http.post(`https://api.themoviedb.org/3/movie/${this.film.id}/rating?api_key=3836694fa8a7ae3ea69b5ff360b3be0b&guest_session_id=${this.__user.guestTmdb}`, {value: click}).then(_ => {
-          this.voted = true
+        setTimeout(() => {
+          this.$http.post(`https://api.themoviedb.org/3/movie/${this.film.id}/rating?api_key=3836694fa8a7ae3ea69b5ff360b3be0b&guest_session_id=${this.__user.guestTmdb}`, {value: this.rate.value.base}).then(_ => {
+            this.voted = true
 
-          db.ref(`users/${this.__user.uid}/rate/${this.film.id}`).update({
-            votedAt: date.toString(),
-            value: click
+            db.ref(`users/${this.__user.uid}/rate/${this.film.id}`).update({
+              votedAt: date.toString(),
+              value: this.rate.value.base
+            })
           })
-        })
-      }, 300)
+        }, 300)
+      }
+
+      this.rate.click = false
     }
   },
   methods: {
     checkVote () {
       db.ref(`users/${this.__user.uid}/rate/${this.film.id}`).once('value', snap => {
         if (!snap.val()) {
-          this.rate.mouseover = 0
+          this.rate.value.mouseover = 0
+          this.rate.value.base = 0
         } else {
-          this.rate.mouseover = snap.val().value
+          this.rate.value.mouseover = snap.val().value
+          this.rate.value.base = snap.val().value
         }
       })
     }
