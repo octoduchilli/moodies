@@ -1,0 +1,43 @@
+.basic-rate {
+  position: relative;
+
+  min-height: 44px;
+  min-width: 200px;
+
+  .stars {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    .black-star, .yellow-star {
+      padding: 2.5px;
+
+      img {
+        height: 35px;
+        width: 35px;
+
+        cursor: pointer;
+      }
+    }
+
+    .yellow-star {
+      overflow-x: hidden;
+
+      transition: .3s ease;
+
+      max-width: calc(35px / 2);
+    }
+
+    .yellow-star.right-part {
+      padding-left: 0;
+
+      img {
+        transform: translateX(calc((-35px - 1px) / 2))
+      }
+    }
+
+    .yellow-star.left-part {
+      padding-right: 0;
+    }
+  }
+}

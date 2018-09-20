@@ -1,0 +1,42 @@
+.history-pannel {
+  min-height: 150px;
+  max-height: 150px;
+
+  background: var(--black40);
+
+  .history-items {
+    overflow-x: scroll;
+    -webkit-overflow-scrolling: touch;
+
+    .item {
+      cursor: pointer;
+
+      height: 30px;
+
+      background: var(--black20);
+
+      border-radius: 3px;
+
+      padding: 5px 10px;
+
+      margin: 10px;
+
+      font-size: 12px;
+
+      max-width: 300px;
+
+      .item-logo {
+        height: 30px;
+        width: 30px;
+
+        margin-right: 10px;
+
+        transition: .5s ease;
+      }
+
+      &:hover .item-logo , &.hover .item-logo {
+        transform: scaleX(-1);
+      }
+    }
+  }
+}

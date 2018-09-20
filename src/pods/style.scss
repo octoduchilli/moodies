@@ -1,0 +1,121 @@
+.home {
+  font-family: 'Julius Sans One', sans-serif;
+
+  .half {
+    min-height: 50vh;
+  }
+
+  section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    min-height: 80vh;
+
+    text-align: center;
+
+    background: var(--black30);
+
+    .title {
+      padding: 15px;
+
+      letter-spacing: 3px;
+      font-size: 35px;
+    }
+
+    .under-title {
+      padding: 5px;
+
+      font-size: 22px;
+    }
+  }
+
+  section:nth-child(1) {
+    position: relative;
+
+    min-height: 100vh;
+
+    background-image: url('/static/img/banniere/base.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+
+    .content {
+      position: absolute;
+      top: 0;
+      left: 0;
+
+      background: linear-gradient(to bottom, rgba(30, 30, 30, .95) 70%, rgba(30, 30, 30, 1));
+
+      height: 100%;
+      width: 100%;
+
+      .logo {
+        width: 110%;
+        max-width: 600px;
+      }
+
+      .description {
+        height: 50%;
+
+        .description-sentence {
+          margin-bottom: 0;
+        }
+
+        .fan-sentence {
+          margin-top: 0;
+        }
+      }
+    }
+  }
+
+  .home-footer {
+    background: linear-gradient(to bottom, var(--black30), var(--black60));
+
+    min-height: 30vh;
+
+    font-family: 'Josefin Sans';
+
+    padding: 0 10px;
+
+    .linkedin {
+      margin: auto 0 0 auto;
+
+      img {
+        width: 25px;
+        height: 25px;
+
+        margin: 5px;
+
+        transition: .5s ease;
+      }
+
+      p {
+        transition: .5s ease;
+      }
+
+      &:hover {
+
+        img:nth-child(1) {
+          transform: rotate(-13deg);
+        }
+
+        img:nth-child(2) {
+          transform: rotate(13deg);
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 700px) {
+  .home {
+    section {
+      .title {
+        font-size: 25px;
+      }
+      .under-title {
+        font-size: 15px;
+      }
+    }
+  }
+}

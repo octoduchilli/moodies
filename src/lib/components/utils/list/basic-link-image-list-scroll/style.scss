@@ -1,0 +1,29 @@
+.basic-link-image-list-scroll {
+  overflow-x: scroll;
+  -webkit-overflow-scrolling: touch;
+
+  .item {
+    position: relative;
+
+    height: 200px;
+    min-width: 140px;
+    max-width: 140px;
+
+    margin: 10px;
+
+    .item-image {
+      position: absolute;
+      top: 0;
+      left: 0;
+
+      height: 200px;
+      width: 140px;
+
+      transition: .5s ease;
+
+      &:hover, &.hover {
+        opacity: .2;
+      }
+    }
+  }
+}

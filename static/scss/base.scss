@@ -1,0 +1,259 @@
+:root {
+  --black10: rgb(10, 10, 10);
+  --black15: rgb(15, 15, 15);
+  --black20: rgb(20, 20, 20);
+  --black25: rgb(25, 25, 25);
+  --black30: rgb(30, 30, 30);
+  --black40: rgb(40, 40, 40);
+  --black50: rgb(50, 50, 50);
+  --black60: rgb(60, 60, 60);
+  --black70: rgb(70, 70, 70);
+
+  --white10: rgb(240, 240, 240);
+  --white20: rgb(230, 230, 230);
+  --white30: rgb(220, 220, 220);
+  --white40: rgb(210, 210, 210);
+  --white50: rgb(200, 200, 200);
+  --white60: rgb(190, 190, 190);
+  --white70: rgb(180, 180, 180);
+
+  --creme: rgb(255, 252, 242);
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+
+  background: var(--black20);
+  color: var(--creme);
+
+  max-width: 100vw;
+
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+
+  font-family: 'Josefin Sans', sans-serif;
+}
+
+.unselectable {
+  -moz-user-select: -moz-none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.link {
+  color: var(--creme);
+  text-decoration: none;
+}
+
+.padding-15 {
+  padding: 15px;
+}
+
+.padding-10 {
+  padding: 10px;
+}
+
+.padding-0-10 {
+  padding: 0px 10px;
+}
+
+.padding-0 {
+  padding: 0;
+}
+
+.margin-0 {
+  margin: 0;
+}
+
+.margin-5 {
+  margin: 5px;
+}
+
+.margin-10 {
+  margin: 10px;
+}
+
+.margin-20 {
+  margin: 20px;
+}
+
+.margin-20-0 {
+  margin: 20px 0;
+}
+
+.scale-1_2 {
+  transform: scale(1.2);
+}
+
+.scale-1_1 {
+  transform: scale(1.1);
+}
+
+.opacity-_7 {
+  opacity: .7;
+}
+
+.opacity-_6 {
+  opacity: .6;
+}
+
+.opacity-_5 {
+  opacity: .5;
+}
+
+.opacity-_4 {
+  opacity: .4;
+}
+
+.opacity-_3 {
+  opacity: .3;
+}
+
+.flex {
+  display: flex;
+}
+
+.wrap {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.row-reverse {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
+.column-reverse {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.hide {
+  display: none;
+}
+
+.align-center {
+  align-items: center;
+}
+
+.align-start {
+  align-items: flex-start
+}
+
+.align-end {
+  align-items: flex-end
+}
+
+.no-list-style {
+  list-style: none;
+}
+
+.margin {
+  margin: auto;
+}
+
+.relative {
+  position: relative;
+}
+
+.no-background {
+  background: none;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.justi-center {
+  justify-content: center;
+}
+
+.justi-start {
+  justify-content: flex-start;
+}
+
+.justi-end {
+  justify-content: flex-end;
+}
+
+.justi-around {
+  justify-content: space-around;
+}
+
+.justi-between {
+  justify-content: space-between;
+}
+
+.color-creme {
+  color: var(--creme);
+}
+
+.color-yellow {
+  color: yellow;
+}
+
+.hover-bg-yellow {
+
+  &:hover, &.hover {
+    transition: .3s;
+    background: yellow;
+    color: black;
+  }
+}
+
+.bg-yellow {
+  background: yellow;
+  color: black;
+}
+
+.bg-pink {
+  background: pink;
+  color: black;
+}
+
+.width {
+  width: 100%;
+}
+
+.height {
+  height: 100%;
+}
+
+.border-title {
+  border-top: 1px solid gray;
+  border-bottom: 1px solid gray;
+}
+
+.scrollbar::-webkit-scrollbar {
+  width: 5px;
+  height: 8px;
+  background-color: rgba(89, 83, 83, 0.3);
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, .3);
+}
+
+.basic-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}

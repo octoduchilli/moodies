@@ -1,0 +1,110 @@
+$ocean: rgb(161, 250, 250);
+
+.create-list {
+  padding: 50px 0;
+  padding-left: 120px;
+
+  .new-button, .list-buttons-personalized, .personalized-modif {
+    background: var(--black50);
+    border-radius: 10px;
+    padding: 30px;
+    .button, .personalized-button-created, .personalized-button-modif {
+      margin: 40px;
+      height: 72px;
+      width: 72px;
+      position: relative;
+      cursor: pointer;
+      transition: .4s ease;
+      font-size: 23px;
+      .label,
+      .circle,
+      .modif {
+        position: absolute;
+      }
+      .label {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+
+        margin: 0;
+
+        width: 100%;
+        height: 100%;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        text-align: center;
+
+        color: black;
+
+        z-index: 10;
+      }
+      .modif {
+        font-size: 12px;
+        text-align: center;
+        width: 100%;
+        transform: translateY(90px);
+      }
+      .circle {
+        transform: rotate(45deg);
+        background: var(--button-color-circle-bg);
+        opacity: .3;
+      }
+      .circle:nth-child(1) {
+        top: 0;
+        left: 0;
+        height: 70px;
+        width: 70px;
+        transition: .4s;
+      }
+      .circle:nth-child(2) {
+        top: 5px;
+        left: 5px;
+        height: 60px;
+        width: 60px;
+        transition: .8s;
+      }
+      .scale {
+        transform: scale(1.1) rotate(45deg);
+      }
+      .veil-background {
+        background: var(--button-color-veil-bg);
+        opacity: .5;
+      }
+      .normal-background {
+        background: var(--button-color-normal-bg);
+        opacity: 1;
+      }
+    }
+    .scale {
+      transform: scale(1.15);
+    }
+  }
+  #color-picker-container {
+    margin: 10px;
+    .color {
+      border-radius: 5px;
+      border: 2px solid white;
+      width: 96px;
+      height: 30px;
+    }
+    .pannel-color {
+      min-width: 100px;
+      margin: 10px;
+    }
+  }
+}
+
+@media (max-width: 900px) {
+  .create-list {
+    padding-left: 0;
+  }
+}
+
+@media (max-width: 500px) {
+  .create-list {
+    padding-top: 0;
+  }
+}

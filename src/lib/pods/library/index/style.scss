@@ -1,0 +1,22 @@
+.index {
+
+  p {
+    line-height: 25px;
+  }
+
+  .list {
+
+    li {
+
+      .orange {
+        color: orange;
+        font-style: italic;
+      }
+
+      .plum {
+        color: plum;
+        font-style: italic;
+      }
+    }
+  }
+}

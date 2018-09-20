@@ -1,0 +1,9 @@
+.my-list {
+  padding-top: 120px;
+}
+
+@media (max-width: 500px) {
+  .my-list {
+    padding-top: 220px;
+  }
+}

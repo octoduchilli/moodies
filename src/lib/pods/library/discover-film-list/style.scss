@@ -1,0 +1,45 @@
+.discover-film-list {
+
+  .items {
+
+    .item {
+      position: relative;
+
+      width: 130px;
+      height: 200px;
+
+      margin: 10px;
+
+      .item-image {
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        z-index: 2;
+
+        width: 130px;
+        height: 200px;
+
+        border-radius: 3px;
+
+        transition: .5s ease;
+      }
+
+      &:hover, &.hover {
+        .item-image {
+          opacity: .2;
+        }
+      }
+    }
+  }
+}
+
+
+@media (max-width: 800px) {
+  .discover-film-list {
+
+    .items {
+      justify-content: center;
+    }
+  }
+}

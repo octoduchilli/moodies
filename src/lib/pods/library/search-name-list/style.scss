@@ -1,0 +1,43 @@
+.search-name-list {
+
+  .half {
+    width: 50%;
+    min-width: 350px;
+
+    padding-bottom: 100px;
+  }
+
+  .items {
+
+    .item {
+      cursor: pointer;
+
+      background: var(--black10);
+
+      border-radius: 3px;
+
+      min-width: 300px;
+      max-width: 300px;
+
+      padding: 5px 10px;
+      margin: 10px;
+
+      transition: .5s ease;
+
+      opacity: .8;
+
+      .item-logo {
+        width: 30px;
+        height: 30px;
+
+        margin-right: 10px;
+      }
+
+      &:hover, &.hover {
+        transform: scale(1.05);
+
+        opacity: 1;
+      }
+    }
+  }
+}

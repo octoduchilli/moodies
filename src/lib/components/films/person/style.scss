@@ -1,0 +1,56 @@
+.person {
+  font-family: 'Josefin Sans';
+  font-weight: 300;
+
+  section {
+    text-align: left;
+
+    .half {
+      width: 50%;
+    }
+
+    .person-poster {
+      margin: 10px;
+      height: 500px;
+      width: 330px;
+      border-radius: 10px;
+      transition: .5s ease;
+
+      &:hover, &.hover {
+        filter: brightness(1.15);
+      }
+    }
+
+    .normal-detail,
+    .title-detail {
+      padding: 15px;
+      background: linear-gradient(to right, var(--black60), var(--black30));
+
+      span {
+        font-size: 15px;
+        color: gray;
+        padding: 10px;
+      }
+    }
+
+    .normal-detail {
+      margin: 10px 0;
+    }
+
+    .biography {
+      line-height: 25px;
+    }
+  }
+}
+
+@media (max-width: 1000px) {
+  .person {
+    section:nth-child(1) {
+      flex-direction: column;
+
+      .half {
+        width: 100%;
+      }
+    }
+  }
+}

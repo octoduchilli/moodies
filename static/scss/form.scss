@@ -1,0 +1,191 @@
+.form-style-7 {
+  max-width: 400px;
+  margin: 50px auto;
+  border-radius: 2px;
+  padding: 20px;
+  font-family: 'Josefin Sans', 'c', "Times New Roman", Times, serif;
+}
+
+.form-style-7 h1 {
+  display: block;
+  text-align: center;
+  padding: 0;
+  margin: 0px 0px 20px 0px;
+  color: #5C5C5C;
+  font-size: x-large;
+}
+
+.form-style-7 ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.form-style-7 li {
+  display: block;
+  padding: 15px;
+  border: 1px solid #DDDDDD;
+  margin-bottom: 30px;
+  border-radius: 3px;
+}
+
+.form-style-7 li>label {
+  display: block;
+  float: left;
+  margin-top: -26px;
+  background: black;
+  border: 1px solid gray;
+  border-radius: 3px;
+  height: 14px;
+  padding: 2px 5px 2px 5px;
+  color: var(--creme);
+  font-size: 17px;
+  overflow: hidden;
+  font-family: 'Josefin Sans', 'c', "Times New Roman", Times, serif;
+}
+
+.form-style-7 input[type="text"],
+.form-style-7 input[type="date"],
+.form-style-7 input[type="datetime"],
+.form-style-7 input[type="email"],
+.form-style-7 input[type="number"],
+.form-style-7 input[type="search"],
+.form-style-7 input[type="time"],
+.form-style-7 input[type="url"],
+.form-style-7 input[type="password"],
+.form-style-7 textarea,
+.form-style-7 select {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  width: 100%;
+  display: block;
+  outline: none;
+  border: none;
+  height: 25px;
+  background: black;
+  border: 1px solid gray;
+  border-radius: 3px;
+  color: var(--creme);
+  line-height: 25px;
+  font-size: 19px;
+  padding: 0;
+  font-family: 'Josefin Sans', 'c', "Times New Roman", Times, serif;
+}
+
+.form-style-7 input[type="text"]:focus,
+.form-style-7 input[type="date"]:focus,
+.form-style-7 input[type="datetime"]:focus,
+.form-style-7 input[type="email"]:focus,
+.form-style-7 input[type="number"]:focus,
+.form-style-7 input[type="search"]:focus,
+.form-style-7 input[type="time"]:focus,
+.form-style-7 input[type="url"]:focus,
+.form-style-7 input[type="password"]:focus,
+.form-style-7 textarea:focus,
+.form-style-7 select:focus {}
+
+.form-style-7 li>span {
+  background: #DDDDDD;
+  display: block;
+  padding: 3px;
+  margin: 0 -9px -9px -9px;
+  text-align: center;
+  color: grey;
+  font-family: 'Josefin Sans', 'c', "Times New Roman", Times, serif;
+  font-size: 15px;
+  width: calc(100% - 30px);
+  margin: auto;
+  margin-top: 3px;
+  border: 1px solid gray;
+  border-radius: 3px;
+}
+
+.form-style-7 textarea {
+  resize: none;
+}
+
+.form-style-7 input[type="submit"],
+.form-style-7 input[type="button"] {
+  background: rgba(150, 0, 0, 1);
+  border: none;
+  padding: 10px 20px 10px 20px;
+  border-bottom: 3px solid rgba(100, 0, 0, 1);
+  border-radius: 3px;
+  color: var(--creme);
+  cursor: pointer;
+}
+
+.form-style-7 input[type="submit"]:hover,
+.form-style-7 input[type="button"]:hover {
+  background: rgba(180, 0, 0, 1);
+  color: var(--creme);
+}
+
+.form-style-7 .wrong {
+  border: 1px solid red;
+}
+
+.form-style-7 .wrong label {
+  color: red;
+}
+
+.form-style-7 .little {
+  font-size: 11px;
+  margin: 3px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: underline;
+  color: gray;
+}
+
+.form-style-7 .block {
+  display: block;
+}
+
+.form-style-7 .good {
+  border: 1px solid red;
+}
+
+.form-style-7 .good label {
+  color: lightgreen;
+}
+
+.form-style-7 .margin {
+  margin: auto;
+}
+
+.form-style-7 div {
+  height: 50px;
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-style-7 p {
+  text-align: center;
+  color: gray;
+  margin: au;
+  padding: 0;
+  max-width: 200px;
+}
+
+.button-yellow {
+  cursor: pointer;
+  padding: 3px 10px;
+  border-radius: 20px;
+  background: yellow;
+  border: 2px solid rgba(0, 0, 0, 0);
+  margin: auto;
+  color: black;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  transition: 0.5s ease;
+  &:hover, &.hover {
+    border: 2px solid yellow;
+    background: none;
+    color: yellow;
+  }
+}

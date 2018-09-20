@@ -1,0 +1,19 @@
+.log-out {
+  padding: 130px 0;
+
+  min-height: calc(100vh - 120px);
+
+  color: var(--creme);
+
+  width: 100%;
+
+  .card {
+    border-radius: 10px;
+
+    background: var(--black40);
+
+    padding: 20px;
+
+    max-width: 320px;
+  }
+}

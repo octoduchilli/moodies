@@ -1,0 +1,3 @@
+User-agent: *
+
+Sitemap: https://www.moodies.fr/static/sitemap/sitemap.xml

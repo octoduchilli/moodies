@@ -1,0 +1,51 @@
+.basic-on-off-button {
+  width: 70px;
+  height: 30px;
+
+  border-radius: 50px;
+
+  transition: .5s ease;
+
+  border: 1px solid var(--creme);
+
+  .switch {
+    background: var(--creme);
+
+    width: 30px;
+    height: 30px;
+
+    border-radius: 50%;
+
+    box-shadow: 0px 0px 5px black;
+
+    transition: .5s ease;
+
+    .switch-logo {
+      width: 15px;
+      height: 15px;
+
+      transition: .5s ease;
+    }
+  }
+}
+
+
+.switch-anim-rotate-left {
+  animation: switch-anim-rotate-left .5s ease;
+}
+
+.switch-anim-rotate-right {
+  animation: switch-anim-rotate-right .5s ease;
+}
+
+@keyframes switch-anim-rotate-left {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes switch-anim-rotate-right {
+  100% {
+    transform: rotate(-180deg);
+  }
+}

@@ -1,0 +1,22 @@
+.basic-link-name-list {
+
+  .item {
+    margin: 5px;
+
+    transition: .3s ease;
+
+    min-width: 200px;
+
+    background: black;
+
+    border-radius: 5px;
+
+    &:hover, &.hover {
+      transform: translateX(10px);
+    }
+
+    .link {
+      padding: 10px 20px;
+    }
+  }
+}

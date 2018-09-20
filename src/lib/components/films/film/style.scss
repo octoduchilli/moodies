@@ -1,0 +1,120 @@
+.film {
+  font-family: 'Josefin Sans';
+  font-weight: 300;
+
+  section {
+    text-align: left;
+
+    .half {
+      width: 50%;
+    }
+
+    .half:nth-child(1) {
+      position: relative;
+
+      margin: 10px;
+
+      padding: 10px;
+
+      width: calc(50% - 40px);
+    }
+
+    .veil {
+      position: absolute;
+
+      height: 100%;
+      width: 100%;
+
+      background: rgba($color: #000000, $alpha: .85);
+
+      border-radius: 15px;
+    }
+
+    .film-poster {
+      margin: 10px;
+
+      height: 500px;
+      width: 330px;
+
+      border-radius: 10px;
+
+      transition: .5s ease;
+
+      z-index: 10;
+
+      &:hover, &.hover {
+        filter: brightness(1.15);
+      }
+    }
+
+    .normal-detail,
+    .title-detail {
+      padding: 15px;
+      background: linear-gradient(to right, var(--black60), var(--black30));
+
+      span {
+        font-size: 15px;
+        color: gray;
+        padding: 10px;
+      }
+    }
+
+    .normal-detail {
+      margin: 10px 0;
+    }
+
+    .synopsis {
+      line-height: 25px;
+    }
+
+    .film-genres {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .trailers {
+
+      .trailers-list {
+
+        .trailer {
+          background: linear-gradient(to right, var(--black60), var(--black30));
+
+          padding: 10px;
+          margin: 5px 20px;
+
+          transition: .3s ease;
+
+          cursor: pointer;
+
+          &:hover, &.hover {
+            transform: translateX(10px)
+          }
+        }
+      }
+
+      .video {
+        width: 90vw;
+        height: 40vw;
+        max-width: 800px;
+        max-height: 400px;
+      }
+    }
+  }
+}
+
+@media (max-width: 1000px) {
+  .film {
+    section:nth-child(1) {
+      flex-direction: column;
+
+      .half {
+        width: 100%;
+      }
+
+      .half:nth-child(1) {
+        width: calc(100% - 40px);
+      }
+    }
+  }
+}
