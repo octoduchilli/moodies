@@ -20,7 +20,6 @@
             <p class="margin-10">{{user.films}} <span style="color: grey">films</span></p>
             <p class="margin-10">{{user.filters}} <span style="color: grey">filtres</span></p>
           </div>
-          <p class="text-center"><span style="color: grey; font-size: 10px; margin-right: 5px">Dernière activité :</span>{{user.activity | moment("Do MMMM YYYY à H:mm")}}</p>
         </div>
       </router-link>
     </ul>
@@ -147,7 +146,7 @@ export default {
       let page = this.__users.page
       let filter = this.__users.dropdowns.sort.items[this.__users.dropdowns.sort.choose].value
 
-      db.ref('community/users').orderByChild(filter).limitToFirst(50 * page).once('value', snap => {
+      await db.ref('community/users').orderByChild(filter).limitToFirst(50 * page).once('value', snap => {
         if (snap.numChildren() !== 50 * page) {
           this.allUsers = true
         }
@@ -161,12 +160,20 @@ export default {
           }
         })
       })
+
+      if (this.__window.width < 500) {
+        window.scroll({
+          top: document.getElementsByClassName('user-list')[0].offsetTop - 120,
+          left: 0,
+          behavior: 'smooth'
+        })
+      }
     },
     async fetchPseudoUsers (text) {
       text = text.toLowerCase()
       let page = this.__users.page
 
-      db.ref('community/users').orderByChild('pseudoLower').equalTo(text).limitToFirst(2 * page).once('value', snap => {
+      await db.ref('community/users').orderByChild('pseudoLower').equalTo(text).limitToFirst(2 * page).once('value', snap => {
         if (snap.val()) {
           snap.forEach(user => {
             user = user.val()
@@ -180,6 +187,14 @@ export default {
           this.noPseudoResult = true
         }
       })
+
+      if (this.__window.width < 500) {
+        window.scroll({
+          top: document.getElementsByClassName('user-list')[0].offsetTop - 120,
+          left: 0,
+          behavior: 'smooth'
+        })
+      }
     }
   }
 }
