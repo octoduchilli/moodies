@@ -182,21 +182,29 @@ export default {
 
           this.$store.state.user.buttons = idFilms
 
+          let i = 0
+
           idFilms.forEach(_ => {
+            i++
             let film = this.$store.state.user.films.all.find(film => String(film.id) === String(_.id))
 
             if (!film) {
-              db.ref(`films/added/${_.id}`).once('value', film => {
-                if (film.val()) {
-                  this.$store.state.user.films.all.push(film.val())
-                }
+              setTimeout(() => {
+                db.ref(`films/added/${_.id}`).once('value', film => {
+                  this.$store.state.user.fetchFilmsNum += 1
+                  console.log(film.val().id)
+                  if (film.val()) {
+                    this.$store.state.user.films.all.push(film.val())
+                  }
 
-                if (this.$store.state.user.films.all.length > idFilms.length - 10) {
-                  this.$store.state.user.fetchFilms = false
-                }
-              })
+                  if (this.$store.state.user.films.all.length > idFilms.length - 10) {
+                    this.$store.state.user.fetchFilms = false
+                  }
+                })
+              }, 3 * i)
             } else if (this.$store.state.user.films.all.length > idFilms.length - 10) {
               this.$store.state.user.fetchFilms = false
+              this.$store.state.user.fetchFilmsNum = 0
             }
           })
 
