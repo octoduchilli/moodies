@@ -5,34 +5,40 @@
     </header>
     <filters-pannel/>
     <h1 class="pad-left text-center">{{privateAccount ? 'Compte privé' : fetch ? 'Un instant...' : __user.pseudo ? `Profil de ${__user.pseudo}` : null}}</h1>
-    <p v-if="!privateAccount && lastActivity" class="text-center pad-left"><span style="color: grey; font-size: 10px; margin-right: 5px">Dernière activité :</span>{{lastActivity | moment("Do MMMM YYYY à H:mm")}}</p>
-    <nav class="nav-top-show-user row justi-center align-center">
-      <ul class="buttons-list basic-list row align-center">
-        <li :style="{'border-radius': __user.view.type === 'poster' || __user.view.type === 'poster-buttons' ? '5px' : null}" class="button" @click="__user.view.type = 'poster'">
-          <img class="button-logo" src="/static/img/buttons/picture-2-white.png">
-        </li>
-        <li :style="{'border-radius': __user.view.type === 'title' ? '5px' : null}" class="button" @click="__user.view.type = 'title'; buttons.showButtons.on = false">
-          <img class="button-logo" src="/static/img/buttons/list-with-dots-white.png">
-        </li>
-      </ul>
-    </nav>
-    <div v-if="__user.view.type === 'poster' || __user.view.type === 'poster-buttons'" class="wrap align-center justi-center pad-left">
-      <p class="margin-10">Afficher les boutons : </p>
-      <basic-on-off-button class="margin-10" :button="buttons.showButtons"/>
-    </div>
-    <div v-if="__currentUser.uid" class="column align-center pad-left margin-10">
-      <p>Comparez la liste de {{__user.pseudo || '...'}} à la vôtre : </p>
-      <p class="margin-0" style="font-size: 10px; color: grey">Tout les films sont visibles par défaut.</p>
-      <div class="row justi-between align-center" style="min-width: 220px">
-        <p class="margin-10">VUS</p>
-        <basic-on-off-button class="margin-10" :button="__user.view.compareList.viewed"/>
+    <div class="wrap align-center pad-left justi-center">
+      <div class="column align-center margin-10">
+        <p v-if="!privateAccount && lastActivity" class="text-center "><span style="color: grey; font-size: 10px; margin-right: 5px">Dernière activité :</span>{{lastActivity | moment("Do MMMM YYYY à H:mm")}}</p>
+        <nav class="nav-top-show-user row justi-center align-center">
+          <ul class="buttons-list basic-list row align-center">
+            <li :style="{'border-radius': __user.view.type === 'poster' || __user.view.type === 'poster-buttons' ? '5px' : null}" class="button" @click="__user.view.type = 'poster'">
+              <img class="button-logo" src="/static/img/buttons/picture-2-white.png">
+            </li>
+            <li :style="{'border-radius': __user.view.type === 'title' ? '5px' : null}" class="button" @click="__user.view.type = 'title'; buttons.showButtons.on = false">
+              <img class="button-logo" src="/static/img/buttons/list-with-dots-white.png">
+            </li>
+          </ul>
+        </nav>
+        <div v-if="__user.view.type === 'poster' || __user.view.type === 'poster-buttons'" class="wrap align-center justi-center ">
+          <p class="margin-10">Afficher les boutons : </p>
+          <basic-on-off-button class="margin-10" :button="buttons.showButtons"/>
+        </div>
       </div>
-      <p class="margin-0" style="font-size: 10px; color: grey; height: 11px">{{__user.view.compareList.viewed.on ? 'Affiche les films que vous avez vus uniquement.' : null}}</p>
-      <div class="row justi-between align-center" style="min-width: 220px">
-        <p class="margin-10">NON VUS</p>
-        <basic-on-off-button class="margin-10" :button="__user.view.compareList.notViewed"/>
+      <div v-if="__currentUser.uid" class="column align-center  margin-10">
+        <div class="padding-20 column align-center" style="border-radius: 10px; background: var(--black40)">
+          <p class="text-center" style="margin-top: 0">Comparez la liste de {{__user.pseudo || '...'}} à la vôtre : </p>
+          <p class="margin-0" style="font-size: 10px; color: grey">Tout les films sont visibles par défaut.</p>
+          <div class="row justi-between align-center" style="min-width: 220px">
+            <p class="margin-10">VUS</p>
+            <basic-on-off-button class="margin-10" :button="__user.view.compareList.viewed"/>
+          </div>
+          <p class="margin-0" style="font-size: 10px; color: grey; height: 11px">{{__user.view.compareList.viewed.on ? 'Affiche les films que vous avez vus uniquement.' : null}}</p>
+          <div class="row justi-between align-center" style="min-width: 220px">
+            <p class="margin-10">NON VUS</p>
+            <basic-on-off-button class="margin-10" :button="__user.view.compareList.notViewed"/>
+          </div>
+          <p class="margin-0" style="font-size: 10px; color: grey; height: 11px">{{__user.view.compareList.notViewed.on ? 'Affiche les films que vous n\'avez pas vus uniquement.' : null}}</p>
+        </div>
       </div>
-      <p class="margin-0" style="font-size: 10px; color: grey; height: 11px">{{__user.view.compareList.notViewed.on ? 'Affiche les films que vous n\'avez pas vus uniquement.' : null}}</p>
     </div>
     <ul class="actived-filters-list basic-list justi-center" :class="[__window.width > 500 ? 'wrap' : 'column align-center']">
       <p class="text-center flex justi-center align-center" v-if="__activedFilters.length > 0">Liste triée selon :</p>
