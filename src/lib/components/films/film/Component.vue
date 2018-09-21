@@ -192,6 +192,7 @@ export default {
     'rate.click' (click) {
       if (click) {
         let date = new Date()
+        let film = this.film
 
         this.voted = false
 
@@ -202,6 +203,15 @@ export default {
             db.ref(`users/${this.__user.uid}/rate/${this.film.id}`).update({
               votedAt: date.toString(),
               value: this.rate.value.base
+            })
+            db.ref(`films/added/${film.id}`).set({
+              id: film.id,
+              title: film.title,
+              poster_path: film.poster_path,
+              runtime: film.runtime,
+              popularity: film.popularity,
+              genres: film.genres,
+              release_date: film.releases.countries.find(_ => String(_.iso_3166_1) === 'FR') ? film.releases.countries.find(_ => String(_.iso_3166_1) === 'FR').release_date : film.release_date
             })
           })
         }, 300)
