@@ -10,16 +10,14 @@
         <div class="normal-detail">
           <user-buttons :film="film" flexDirection="row"/>
         </div>
-        <div class="normal-detail wrap">
-          <p class="margin-10">{{film.vote_average / 2}} / 5 Étoiles</p>
-          <p class="margin-10" style="color: lightgrey">{{film.vote_count}} Votes</p>
-        </div>
-        <div class="normal-detail" :style="{'opacity': __user.uid ? '1' : '.3'}">
-          <div class="column">
+        <div class="normal-detail wrap align-center">
+          <div @click="!__user.uid ? $router.push('/profile/sign-in') : null" class="column" :style="{'opacity': __user.uid ? '1' : '.3'}">
             <basic-rate :rate="rate"/>
             <p class="margin-10" v-if="voted">Vote pris en compte !</p>
             <p class="margin-0" style="font-size: 11px; color: grey; margin-left: 10px" v-if="voted">Le total des votes et la note globale du film peut mettre du temps à s'actualiser.</p>
           </div>
+          <p class="margin-10">{{film.vote_average / 2}} / 5 Étoiles</p>
+          <p class="margin-10" style="color: lightgrey">{{film.vote_count}} Votes</p>
         </div>
         <ul class="film-genres normal-detail no-list-style padding-0" v-if="film.genres">
           <span>GENRES : </span>
