@@ -111,7 +111,7 @@ export default {
         this.__users.inputs.pseudo.text = ''
 
         setTimeout(() => {
-          this.fetchDropdownsUsers()
+          this.fetchDropdownsUsers(true)
         })
       }
 
@@ -126,7 +126,7 @@ export default {
         this.__users.list = []
 
         setTimeout(() => {
-          this.fetchPseudoUsers(text)
+          this.fetchPseudoUsers(text, true)
         })
       }
 
@@ -141,7 +141,7 @@ export default {
     }
   },
   methods: {
-    async fetchDropdownsUsers () {
+    async fetchDropdownsUsers (click) {
       this.allUsers = false
       let page = this.__users.page
       let filter = this.__users.dropdowns.sort.items[this.__users.dropdowns.sort.choose].value
@@ -161,7 +161,7 @@ export default {
         })
       })
 
-      if (this.__window.width < 500) {
+      if (this.__window.width < 500 && click) {
         window.scroll({
           top: document.getElementsByClassName('user-list')[0].offsetTop - 120,
           left: 0,
@@ -169,7 +169,7 @@ export default {
         })
       }
     },
-    async fetchPseudoUsers (text) {
+    async fetchPseudoUsers (text, click) {
       text = text.toLowerCase()
       let page = this.__users.page
 
@@ -188,7 +188,7 @@ export default {
         }
       })
 
-      if (this.__window.width < 500) {
+      if (this.__window.width < 500 && click) {
         window.scroll({
           top: document.getElementsByClassName('user-list')[0].offsetTop - 120,
           left: 0,
