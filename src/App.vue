@@ -66,7 +66,7 @@ export default {
       }
     }
   },
-  mounted () {
+  created () {
     this.$store.state.window.height = window.innerHeight
     this.$store.state.window.width = window.innerWidth
     this.$store.state.window.scrollY = window.scrollY
