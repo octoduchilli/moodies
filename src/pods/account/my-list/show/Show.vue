@@ -1,18 +1,23 @@
 <template>
   <div class="show-list column align-center width">
-    <nav class="nav-top-show-list row justi-center align-center">
-      <ul class="buttons-list basic-list row align-center">
-        <li :style="{'border-radius': __user.view.type === 'poster' || __user.view.type === 'poster-buttons' ? '5px' : null}" class="button" @click="__user.view.type = 'poster'">
-          <img class="button-logo" src="/static/img/buttons/picture-2-white.png">
-        </li>
-        <li :style="{'border-radius': __user.view.type === 'title' ? '5px' : null}" class="button" @click="__user.view.type = 'title'; buttons.showButtons.on = false">
-          <img class="button-logo" src="/static/img/buttons/list-with-dots-white.png">
-        </li>
-      </ul>
-    </nav>
-    <div v-if="__user.view.type === 'poster' || __user.view.type === 'poster-buttons'" class="wrap align-center justi-cente pad-left">
-      <p class="margin-10">Afficher les boutons : </p>
-      <basic-on-off-button class="margin-10" :button="buttons.showButtons"/>
+    <div class="pad-left">
+      <div class="column align-center padding-20 margin-10" style="border-radius: 10px; background: var(--black40);">
+        <p class="text-center" style="margin-top: 0">Gérez l'affichage : </p>
+        <nav class="nav-top-show-list row justi-center align-center">
+          <ul class="buttons-list basic-list row align-center">
+            <li :style="{'border-radius': __user.view.type === 'poster' || __user.view.type === 'poster-buttons' ? '5px' : null}" class="button" @click="__user.view.type = 'poster'">
+              <img class="button-logo" src="/static/img/buttons/picture-2-white.png">
+            </li>
+            <li :style="{'border-radius': __user.view.type === 'title' ? '5px' : null}" class="button" @click="__user.view.type = 'title'; buttons.showButtons.on = false">
+              <img class="button-logo" src="/static/img/buttons/list-with-dots-white.png">
+            </li>
+          </ul>
+        </nav>
+        <div v-if="__user.view.type === 'poster' || __user.view.type === 'poster-buttons'" class="wrap align-center justi-center ">
+          <p class="margin-10">Afficher les boutons : </p>
+          <basic-on-off-button class="margin-10" :button="buttons.showButtons"/>
+        </div>
+      </div>
     </div>
     <ul class="actived-filters-list basic-list justi-center" :class="[__window.width > 500 ? 'wrap' : 'column align-center']">
       <p class="text-center flex justi-center align-center" v-if="__activedFilters.length > 0">Liste triée selon :</p>

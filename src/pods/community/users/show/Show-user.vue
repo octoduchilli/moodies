@@ -5,10 +5,11 @@
       <p v-else class="margin-0 padding-10">Récupération des films en cours... ({{fetchFilmsNum}})</p>
     </header>
     <filters-pannel/>
-    <h1 class="pad-left text-center">{{privateAccount ? 'Compte privé' : fetch ? 'Un instant...' : __user.pseudo ? `Profil de ${__user.pseudo}` : null}}</h1>
+    <h1 class="pad-left text-center">{{privateAccount ? 'Profil privé' : fetch ? 'Un instant...' : __user.pseudo ? `Profil de ${__user.pseudo}` : null}}</h1>
+    <p v-if="!privateAccount && lastActivity" class="text-center pad-left"><span style="color: grey; font-size: 10px; margin-right: 5px">Dernière activité :</span>{{lastActivity | moment("Do MMMM YYYY à H:mm")}}</p>
     <div class="wrap align-center pad-left justi-center">
-      <div class="column align-center margin-10">
-        <p v-if="!privateAccount && lastActivity" class="text-center "><span style="color: grey; font-size: 10px; margin-right: 5px">Dernière activité :</span>{{lastActivity | moment("Do MMMM YYYY à H:mm")}}</p>
+      <div class="column align-center padding-20 margin-10" style="border-radius: 10px; background: var(--black40); min-height: 170px;">
+        <p class="text-center" style="margin-top: 0">Gérez l'affichage : </p>
         <nav class="nav-top-show-user row justi-center align-center">
           <ul class="buttons-list basic-list row align-center">
             <li :style="{'border-radius': __user.view.type === 'poster' || __user.view.type === 'poster-buttons' ? '5px' : null}" class="button" @click="__user.view.type = 'poster'">
@@ -24,21 +25,19 @@
           <basic-on-off-button class="margin-10" :button="buttons.showButtons"/>
         </div>
       </div>
-      <div v-if="__currentUser.uid" class="column align-center  margin-10">
-        <div class="padding-20 column align-center" style="border-radius: 10px; background: var(--black40)">
-          <p class="text-center" style="margin-top: 0">Comparez la liste de {{__user.pseudo || '...'}} à la vôtre : </p>
-          <p class="margin-0" style="font-size: 10px; color: grey">Tout les films sont visibles par défaut.</p>
-          <div class="row justi-between align-center" style="min-width: 220px">
-            <p class="margin-10">VUS</p>
-            <basic-on-off-button class="margin-10" :button="__user.view.compareList.viewed"/>
-          </div>
-          <p class="margin-0" style="font-size: 10px; color: grey; height: 11px">{{__user.view.compareList.viewed.on ? 'Affiche les films que vous avez vus uniquement.' : null}}</p>
-          <div class="row justi-between align-center" style="min-width: 220px">
-            <p class="margin-10">NON VUS</p>
-            <basic-on-off-button class="margin-10" :button="__user.view.compareList.notViewed"/>
-          </div>
-          <p class="margin-0" style="font-size: 10px; color: grey; height: 11px">{{__user.view.compareList.notViewed.on ? 'Affiche les films que vous n\'avez pas vus uniquement.' : null}}</p>
+      <div v-if="__currentUser.uid" class="padding-20 column align-center margin-10" style="border-radius: 10px; background: var(--black40); min-height: 170px;">
+        <p class="text-center" style="margin-top: 0">Comparez la liste de {{__user.pseudo || '...'}} à la vôtre : </p>
+        <p class="margin-0" style="font-size: 10px; color: grey">Tout les films sont visibles par défaut.</p>
+        <div class="row justi-between align-center" style="min-width: 220px">
+          <p class="margin-10">VUS</p>
+          <basic-on-off-button class="margin-10" :button="__user.view.compareList.viewed"/>
         </div>
+        <p class="margin-0" style="font-size: 10px; color: grey; height: 11px">{{__user.view.compareList.viewed.on ? 'Affiche les films que vous avez vus uniquement.' : null}}</p>
+        <div class="row justi-between align-center" style="min-width: 220px">
+          <p class="margin-10">NON VUS</p>
+          <basic-on-off-button class="margin-10" :button="__user.view.compareList.notViewed"/>
+        </div>
+        <p class="margin-0" style="font-size: 10px; color: grey; height: 11px">{{__user.view.compareList.notViewed.on ? 'Affiche les films que vous n\'avez pas vus uniquement.' : null}}</p>
       </div>
     </div>
     <ul class="actived-filters-list basic-list justi-center" :class="[__window.width > 500 ? 'wrap' : 'column align-center']">
@@ -432,7 +431,6 @@ export default {
 
       if (compareList.viewed.on) {
         let save = finded
-        let currentUser = this.__currentUser
         let currentUserButtonsViewed = this.__currentUser.buttons.filter(_ => _.buttons.find(a => a.id === 1))
 
         finded = []
@@ -445,7 +443,6 @@ export default {
         })
       } else if (compareList.notViewed.on) {
         let save = finded
-        let currentUser = this.__currentUser
         let currentUserButtonsViewed = this.__currentUser.buttons.filter(_ => _.buttons.find(a => a.id === 1))
 
         finded = []
