@@ -56,6 +56,7 @@ export default {
     }
   },
   async created () {
+    this.$store.state.route.selected = 3
     this.inputs.pseudo.text = this.__user.pseudo
 
     await db.ref(`community/users/${this.__user.uid}`).once('value', snap => {

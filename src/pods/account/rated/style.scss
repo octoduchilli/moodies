@@ -1,0 +1,74 @@
+.rated-films {
+  padding-top: 120px;
+
+  .rated-list {
+
+    .rated {
+      position: relative;
+
+      border-radius: 10px;
+
+      background: var(--black40);
+
+      .delete {
+        cursor: pointer;
+
+        position: absolute;
+
+        top: 5px;
+        right: 5px;
+
+        padding: 10px;
+
+        border-radius: 50%;
+
+        background: red;
+
+        height: 25px;
+        width: 25px;
+
+        &:hover img {
+          transform: scaleX(-1)
+        }
+
+        img {
+          height: 20px;
+          width: 20px;
+
+          transition: .5s ease;
+        }
+      }
+
+      .poster {
+        position: relative;
+
+        width: 130px;
+        height: 200px;
+
+        margin: 10px;
+
+        .item-image {
+          position: absolute;
+          top: 0;
+          left: 0;
+
+          z-index: 2;
+
+          width: 130px;
+          height: 200px;
+
+          border-radius: 3px;
+
+          transition: .5s ease;
+        }
+
+        &:hover, &.hover {
+
+          .item-image {
+            opacity: .2;
+          }
+        }
+      }
+    }
+  }
+}

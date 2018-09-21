@@ -5,6 +5,7 @@
       <basic-button style="margin-bottom: 30px; width: 200px" :button="logOut.button"/>
       <router-link style="text-shadow: 0 0 5px black; text-decoration: underline" class="link margin-10" to="/account/informations">Mes informations</router-link>
       <router-link style="text-shadow: 0 0 5px black; text-decoration: underline" class="link margin-10" to="/account/my-list/show">Voir ma liste</router-link>
+      <router-link style="text-shadow: 0 0 5px black; text-decoration: underline" class="link margin-10" to="/account/rated">Voir mes votes</router-link>
     </div>
   </div>
 </template>
@@ -19,10 +20,13 @@ export default {
       logOut: {
         button: {
           click: false,
-          label: 'SE DECONNECTER'
+          label: 'Se déconnecter'
         }
       }
     }
+  },
+  created () {
+    this.$store.state.route.selected = 3
   },
   computed: {
     __user () {
