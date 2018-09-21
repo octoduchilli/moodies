@@ -17,6 +17,8 @@ import Account from '@/pods/account/Account'
 import Informations from '@/pods/account/informations/Informations'
 import LogOut from '@/pods/account/log-out/Log-out'
 
+import RatedFilms from '@/pods/account/rated/Rated-films'
+
 import MyList from '@/pods/account/my-list/My-list'
 import CreateList from '@/pods/account/my-list/create/Create'
 import ShowList from '@/pods/account/my-list/show/Show'
@@ -81,6 +83,10 @@ export default new Router({
         {
           path: 'informations',
           component: Informations
+        },
+        {
+          path: 'rated',
+          component: RatedFilms
         },
         {
           path: 'my-list',
