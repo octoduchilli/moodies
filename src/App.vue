@@ -165,6 +165,8 @@ export default {
           })
         })
 
+        this.$store.state.user.fetchFilms = true
+
         db.ref('users/' + user.uid + '/films').on('value', films => {
           let idFilms = []
 
@@ -188,7 +190,13 @@ export default {
                 if (film.val()) {
                   this.$store.state.user.films.all.push(film.val())
                 }
+
+                if (this.$store.state.user.films.all.length > idFilms.length - 10) {
+                  this.$store.state.user.fetchFilms = false
+                }
               })
+            } else if (this.$store.state.user.films.all.length > idFilms.length - 10) {
+              this.$store.state.user.fetchFilms = false
             }
           })
 
