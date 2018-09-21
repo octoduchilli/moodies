@@ -1,7 +1,8 @@
 <template>
   <div class="show-user column align-center width">
     <header class="show-user-header flex text-center justi-center align-center">
-      <p class="margin-0 padding-10">{{`${minToMDHM(__totalRuntime)} - ${__user.films.actived.length} films`}}</p>
+      <p v-if="!fetch" class="margin-0 padding-10">{{`${minToMDHM(__totalRuntime)} - ${__user.films.actived.length} films`}}</p>
+      <p v-else class="margin-0 padding-10">Récupération des films en cours...</p>
     </header>
     <filters-pannel/>
     <h1 class="pad-left text-center">{{privateAccount ? 'Compte privé' : fetch ? 'Un instant...' : __user.pseudo ? `Profil de ${__user.pseudo}` : null}}</h1>
@@ -150,11 +151,7 @@ export default {
         this.$store.state.community.user.buttons = idFilms
       })
 
-      let fetchSomething = false
-
-      if (idFilms.length === 0) {
-        this.fetch = false
-      }
+      this.fetch = true
 
       for (let index in idFilms) {
         let _ = idFilms[index]
@@ -162,7 +159,6 @@ export default {
 
         if (!film) {
           db.ref(`films/added/${_.id}`).once('value', film => {
-            fetchSomething = true
             if (film.val()) {
               this.$store.state.community.user.films.all.push(film.val())
             }
@@ -171,9 +167,7 @@ export default {
               this.fetch = false
             }
           })
-        }
-
-        if (fetchSomething === false && this.$store.state.community.user.films.all.length > idFilms.length - 10) {
+        } else if (this.$store.state.community.user.films.all.length > idFilms.length - 10) {
           this.fetch = false
         }
       }

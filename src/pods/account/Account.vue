@@ -1,9 +1,10 @@
 <template>
   <div class="account">
     <header class="flex text-center justi-center align-center account-header">
-      <p class="margin-0 padding-10">
+      <p v-if="!__user.fetchFilms" class="margin-0 padding-10">
         {{`${minToMDHM(__totalRuntime)} - ${__user.films.actived.length} films`}}
       </p>
+      <p v-else class="margin-0 padding-10">Récupération des films en cours...</p>
     </header>
     <router-view v-if="__user.uid"/>
     <h1 class="wait text-center width" v-else>Un instant...</h1>
