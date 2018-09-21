@@ -291,6 +291,7 @@ export default new Vuex.Store({
       guestTmdb: null,
       tryConnect: false,
       fetchFilms: false,
+      fetchFilmsNum: 0,
       films: {
         actived: [],
         current: [],

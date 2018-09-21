@@ -80,6 +80,22 @@ export default {
 
       this.fetch = false
     })
+
+    db.ref(`users/${this.__user.uid}/rate`).on('child_changed', _ => {
+      let key = _.key
+
+      _ = _.val()
+
+      let list = this.__rated.list
+      let f = list.find(a => String(a.id) === String(key))
+
+      if (f) {
+        f.rate.value = {
+          base: _.value,
+          mouseover: _.value
+        }
+      }
+    })
   },
   computed: {
     __user () {
