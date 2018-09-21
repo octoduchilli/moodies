@@ -246,6 +246,41 @@ export default new Vuex.Store({
         }
       }
     },
+    account: {
+      rated: {
+        list: [],
+        dropdowns: {
+          sort: {
+            id: 1,
+            click: false,
+            choose: 0,
+            label: 'Trier',
+            items: [
+              {
+                id: 0,
+                name: 'Étoiles ↗',
+                value: 'star+'
+              },
+              {
+                id: 1,
+                name: 'Étoiles ↘',
+                value: 'star-'
+              },
+              {
+                id: 2,
+                name: 'Date ↗',
+                value: 'date+'
+              },
+              {
+                id: 3,
+                name: 'Date ↘',
+                value: 'date-'
+              }
+            ]
+          }
+        }
+      }
+    },
     user: {
       uid: null,
       email: null,
