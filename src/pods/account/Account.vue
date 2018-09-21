@@ -6,6 +6,7 @@
       </p>
     </header>
     <router-view v-if="__user.uid"/>
+    <h1 class="wait text-center width" v-else>Un instant...</h1>
   </div>
 </template>
 
@@ -14,10 +15,11 @@ import dateMixin from '@/lib/mixins/date'
 
 export default {
   mixins: [dateMixin],
-  created () {
-    if (!this.__user.uid) {
+  mounted () {
+    this.$store.state.route.selected = 3
+    if (!this.__user.uid && !this.__user.tryConnect) {
       this.$router.push('/profile/sign-in')
-    } else {
+    } else if (this.__user.uid) {
       this.setCurrentFilmList()
       this.initListWithActivedFilters()
       if (this.__user.filters.actived.length === 0) {
@@ -46,6 +48,11 @@ export default {
     }
   },
   watch: {
+    '__user.tryConnect' (val) {
+      if (!val && !this.__user.uid) {
+        this.$router.push('/profile/sign-in')
+      }
+    },
     '__user.films.all' (all) {
       this.setCurrentFilmList()
 
