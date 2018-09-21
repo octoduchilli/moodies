@@ -1,6 +1,6 @@
 <template>
   <div class="search-name-list wrap justi-center width height">
-    <div class="half column align-end">
+    <div class="half column" :class="[__window.width > 500 ? 'align-end' : 'align-center']">
       <div class="column">
       <h1 class="text-center">Films - ({{lists.film.items.length}})</h1>
       <p class="text-center pointer margin" style="text-decoration: underline" @click="__name.view.type === 'title' ?  __name.view.type = 'poster' : __name.view.type = 'title'">{{__name.view.type === 'poster' ? 'Afficher les titres' : 'Afficher les posters'}}</p>
@@ -13,7 +13,7 @@
       <basic-link-image-list-wrap v-if="__name.view.type === 'poster'"  :list="__filmsList"/>
       </div>
     </div>
-    <div class="half column align-start">
+    <div class="half column" :class="[__window.width > 500 ? 'align-start' : 'align-center']">
       <div class="column">
       <h1 class="text-center">Personnalités - ({{lists.person.items.length}})</h1>
       <ul class="items basic-list">
@@ -32,6 +32,9 @@ export default {
   name: 'search-name-list',
   props: ['lists'],
   computed: {
+    __window () {
+      return this.$store.state.window
+    },
     __name () {
       return this.$store.state.library.search.name
     },
