@@ -20,6 +20,7 @@
             <p class="margin-10">{{user.films}} <span style="color: grey">films</span></p>
             <p class="margin-10">{{user.filters}} <span style="color: grey">filtres</span></p>
           </div>
+          <p v-if="user.privateAccount" class="text-center" style="color: red">Profil privé</p>
         </div>
       </router-link>
     </ul>
