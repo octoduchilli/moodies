@@ -29,11 +29,17 @@
       <list-films-scroll-left id="isPopular" :films="isPopular.films" :i18n="isPopular.i18n"/>
     </section>
     <footer class="home-footer column">
-      <a href="https://www.linkedin.com/in/josselin-ada/" class="link linkedin row align-center text-center">
-        <img src="/static/img/buttons/linkedin.png" alt="Linkedin">
-        <img src="/static/img/buttons/seo-white.png" alt=" ">
-        <p>Developed & Designed by Josselin ADA</p>
-      </a>
+      <div class="wrap width justi-between" style="margin-top: auto">
+        <div class="contact row align-center">
+          <img src="/static/img/buttons/mail-white.png" alt=" ">
+          <p class="margin-10">team@moodies.fr</p>
+        </div>
+        <a href="https://www.linkedin.com/in/josselin-ada/" class="link linkedin row align-center text-center">
+          <img src="/static/img/buttons/linkedin.png" alt="Linkedin">
+          <img src="/static/img/buttons/seo-white.png" alt=" ">
+          <p>Developed & Designed by Josselin ADA</p>
+        </a>
+      </div>
     </footer>
   </div>
 </template>
