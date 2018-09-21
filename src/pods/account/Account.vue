@@ -17,7 +17,6 @@ import dateMixin from '@/lib/mixins/date'
 export default {
   mixins: [dateMixin],
   mounted () {
-    this.$store.state.route.selected = 3
     if (!this.__user.uid && !this.__user.tryConnect) {
       this.$router.push('/profile/sign-in')
     } else if (this.__user.uid) {

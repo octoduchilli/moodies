@@ -12,7 +12,7 @@ export default {
   components: {
     filtersPannel
   },
-  mounted () {
+  created () {
     this.$store.state.route.selected = 2
   },
   computed: {
