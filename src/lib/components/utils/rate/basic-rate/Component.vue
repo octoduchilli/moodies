@@ -16,6 +16,7 @@
 <script>
 export default {
   props: ['rate'],
+  name: 'basic-rate',
   watch: {
     'rate.click' (val) {
       this.rate.click = val
