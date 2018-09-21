@@ -4,9 +4,40 @@
   .rated-list {
 
     .rated {
+      position: relative;
+
       border-radius: 10px;
 
-      background: var(--black30);
+      background: var(--black40);
+
+      .delete {
+        cursor: pointer;
+
+        position: absolute;
+
+        top: 5px;
+        right: 5px;
+
+        padding: 10px;
+
+        border-radius: 50%;
+
+        background: red;
+
+        height: 25px;
+        width: 25px;
+
+        &:hover img {
+          transform: scaleX(-1)
+        }
+
+        img {
+          height: 20px;
+          width: 20px;
+
+          transition: .5s ease;
+        }
+      }
 
       .poster {
         position: relative;
