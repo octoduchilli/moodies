@@ -8,7 +8,7 @@
         <h1 class="title-detail">{{person.name}}</h1>
         <p v-if="person.birthday" class="normal-detail"><span>DATE DE NAISSANCE : </span>{{YMDtoDate(person.birthday)}}</p>
         <p v-if="person.place_of_birth" class="normal-detail"><span>LIEU DE NAISSANCE : </span>{{person.place_of_birth}}</p>
-        <p v-if="person.deathday" class="normal-detail"><span>DUREE DE DECES : </span>{{YMDtoDate(person.deathday)}}</p>
+        <p v-if="person.deathday" class="normal-detail"><span>DATE DE DECES : </span>{{YMDtoDate(person.deathday)}}</p>
         <p v-if="person.biography" class="biography normal-detail"><span>BIOGRAPHIE : </span>{{person.biography}}</p>
       </div>
     </section>
@@ -41,6 +41,10 @@ export default {
       let cast = this.person.movie_credits.cast
       let final = []
 
+      cast.sort((a, b) => {
+        return b.popularity - a.popularity
+      })
+
       cast.forEach(_ => {
         final.push({
           id: _.credit_id,
@@ -55,6 +59,10 @@ export default {
     __crewMovieList () {
       let crew = this.person.movie_credits.crew
       let final = []
+
+      crew.sort((a, b) => {
+        return b.popularity - a.popularity
+      })
 
       crew.forEach(_ => {
         final.push({
