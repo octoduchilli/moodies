@@ -192,7 +192,6 @@ export default {
               setTimeout(() => {
                 db.ref(`films/added/${_.id}`).once('value', film => {
                   this.$store.state.user.fetchFilmsNum += 1
-                  console.log(film.val().id)
                   if (film.val()) {
                     this.$store.state.user.films.all.push(film.val())
                   }
