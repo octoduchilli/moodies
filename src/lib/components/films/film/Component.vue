@@ -204,6 +204,20 @@ export default {
               votedAt: date.toString(),
               value: this.rate.value.base
             })
+
+            db.ref(`users/${this.__user.uid}/last/rate`).update({
+              id: this.film.id,
+              votedAt: date.toString(),
+              value: this.rate.value.base
+            })
+
+            db.ref(`community/last/rate`).update({
+              uid: this.__user.uid,
+              id: this.film.id,
+              votedAt: date.toString(),
+              value: this.rate.value.base
+            })
+
             db.ref(`films/added/${film.id}`).set({
               id: film.id,
               title: film.title,
