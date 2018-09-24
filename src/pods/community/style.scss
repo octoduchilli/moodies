@@ -22,4 +22,65 @@ $ocean: rgb(161, 250, 250);
       color: white;
     }
   }
+
+  .last-activity {
+
+    .activity {
+      background: var(--black40);
+
+      border-radius: 10px;
+
+      margin: 10px;
+
+      padding: 15px;
+
+      transition: .5s ease;
+
+      min-width: 200px;
+      max-width: 200px;
+
+      .pseudo {
+        padding: 30px;
+
+        height: 60px;
+
+        width: 60px;
+
+        letter-spacing: 1px;
+
+        border-radius: 50%;
+
+        background: var(--black10);
+
+        border: 1px solid var(--black20);
+      }
+
+      .film {
+        position: relative;
+
+        height: 200px;
+        min-width: 140px;
+        max-width: 140px;
+
+        margin: 10px;
+
+        .film-poster {
+          position: absolute;
+          top: 0;
+          left: 0;
+
+          height: 200px;
+          width: 140px;
+
+          border-radius: 3px;
+
+          transition: .5s ease;
+
+          &:hover, &.hover {
+            opacity: .2;
+          }
+        }
+      }
+    }
+  }
 }

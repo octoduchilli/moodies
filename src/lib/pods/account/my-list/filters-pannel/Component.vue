@@ -41,7 +41,7 @@ export default {
           id: 2,
           mouseover: false,
           click: false,
-          link: 'rate-star-button',
+          link: 'star',
           color: 'yellow'
         },
         personalize: {

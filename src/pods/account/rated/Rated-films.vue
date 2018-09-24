@@ -143,8 +143,15 @@ export default {
   methods: {
     removeRate (rate) {
       let list = this.__rated.list
+      let date = new Date()
 
       db.ref(`users/${this.__user.uid}/rate/${rate.id}`).set(null)
+
+      db.ref(`users/${this.__user.uid}/last/rate`).update({
+        id: Number(rate.id),
+        votedAt: date.toString(),
+        value: 0
+      })
 
       let index = list.findIndex(_ => String(_.id) === String(rate.id))
 
