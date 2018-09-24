@@ -81,8 +81,8 @@ export default {
             id: 2,
             mouseover: false,
             image: {
-              before: '/static/img/buttons/rate-star-button-yellow.png',
-              after: '/static/img/buttons/rate-star-button-black.png'
+              before: '/static/img/buttons/star-yellow.png',
+              after: '/static/img/buttons/star-black.png'
             },
             circle: {
               color: 'yellow'
