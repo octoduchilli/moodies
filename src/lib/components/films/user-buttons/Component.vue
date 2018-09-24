@@ -30,7 +30,7 @@ export default {
           id: 2,
           mouseover: false,
           click: false,
-          link: 'rate-star-button',
+          link: 'star',
           color: 'yellow'
         },
         personalize: {
@@ -118,12 +118,26 @@ export default {
       let user = this.__user
       let buttons = this.__buttonsForSave
       let film = null
+      let date = new Date()
 
       await this.httpGet(`https://api.themoviedb.org/3/movie/${this.film.id}?api_key=3836694fa8a7ae3ea69b5ff360b3be0b&language=fr&append_to_response=releases,recommendations,credits`).then(_ => {
         film = _
       })
 
       db.ref(`users/${user.uid}/films/${film.id}`).set(buttons)
+
+      db.ref(`users/${this.__user.uid}/last/film`).update({
+        id: film.id,
+        createdAt: date.toString(),
+        buttons: buttons
+      })
+
+      db.ref(`community/last/film`).update({
+        uid: this.__user.uid,
+        id: film.id,
+        createdAt: date.toString()
+      })
+
       db.ref(`films/added/${film.id}`).set({
         id: film.id,
         title: film.title,
