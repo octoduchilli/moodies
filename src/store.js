@@ -105,6 +105,24 @@ export default new Vuex.Store({
       }
     },
     community: {
+      last: {
+        film: {
+          film: null,
+          user: null,
+          createdAt: null
+        },
+        favorite: {
+          film: null,
+          user: null,
+          createdAt: null
+        },
+        rate: {
+          film: null,
+          user: null,
+          value: null,
+          votedAt: null
+        }
+      },
       user: {
         uid: null,
         pseudo: null,
