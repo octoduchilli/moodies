@@ -1,0 +1,76 @@
+.user-activity {
+
+  .activity {
+    background: var(--black40);
+
+    border-radius: 10px;
+
+    margin: 10px;
+
+    padding: 5px;
+
+    padding-top: 10px;
+
+    transition: .5s ease;
+
+    min-width: 230px;
+    max-width: 230px;
+
+    .pseudo {
+      padding: 30px;
+
+      height: 20px;
+
+      width: 20px;
+
+      letter-spacing: 1px;
+
+      font-size: 12px;
+
+      border-radius: 50%;
+
+      background: var(--black10);
+
+      border: 1px solid var(--black20);
+
+      transition: .5s ease;
+
+      &:hover {
+        transform: translateY(-3px);
+
+        box-shadow: 0 3px 8px rgba($color: black, $alpha: .3);
+      }
+    }
+
+    .film {
+      position: relative;
+
+      height: 200px;
+      min-width: 140px;
+      max-width: 140px;
+
+      margin: 10px;
+
+      background: var(--black10);
+
+      border-radius: 5px;
+
+      .film-poster {
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        height: 200px;
+        width: 140px;
+
+        border-radius: 5px;
+
+        transition: .5s ease;
+
+        &:hover, &.hover {
+          opacity: .2;
+        }
+      }
+    }
+  }
+}
