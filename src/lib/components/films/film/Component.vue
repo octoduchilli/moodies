@@ -211,12 +211,14 @@ export default {
               value: this.rate.value.base
             })
 
-            db.ref(`community/last/rate`).update({
-              uid: this.__user.uid,
-              id: this.film.id,
-              votedAt: date.toString(),
-              value: this.rate.value.base
-            })
+            if (this.__user.pseudo) {
+              db.ref(`community/last/rate`).update({
+                uid: this.__user.uid,
+                id: this.film.id,
+                votedAt: date.toString(),
+                value: this.rate.value.base
+              })
+            }
 
             db.ref(`films/added/${film.id}`).set({
               id: film.id,
