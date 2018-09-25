@@ -28,6 +28,7 @@ import EditList from '@/pods/account/my-list/modif/edit/Edit'
 import Community from '@/pods/community/Community'
 import Users from '@/pods/community/users/Users'
 import ShowUser from '@/pods/community/users/show/Show-user'
+import UserActivity from '@/pods/community/users/show/activity/User-activity'
 
 Vue.use(Router)
 
@@ -125,7 +126,13 @@ export default new Router({
     },
     {
       path: '/users/:id',
-      component: ShowUser
+      component: ShowUser,
+      children: [
+        {
+          path: 'activity',
+          component: UserActivity
+        }
+      ]
     }
   ]
 })
