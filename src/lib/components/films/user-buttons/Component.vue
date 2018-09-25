@@ -1,6 +1,6 @@
 <template>
   <ul :style="{'opacity': __user.uid ? 1 : 0.3}" :class="[flexDirection]" class="user-buttons scrollbar basic-list align-center">
-    <li class="user-button" :class="[`${film.id}-user-button`, {'scale': button.click}]" @click="!__user.uid ? redirectSignIn() : button.link === 'add-64' ? redirectCreateList() : button.click ? (button.click = false, updateDb()) : (button.click = true, updateDb())" @mouseover="button.mouseover = true" @mouseout="button.mouseover = false" v-for="button in __buttons" :key="button.id">
+    <li class="user-button" :class="[`${film.id}-user-button`, {'scale': button.click}]" @click="!__user.uid ? redirectSignIn() : button.link === 'add-64' ? redirectCreateList() : button.click ? (button.click = false, updateDb(button.id, false)) : (button.click = true, updateDb(button.id, true))" @mouseover="button.mouseover = true" @mouseout="button.mouseover = false" v-for="button in __buttons" :key="button.id">
       <div class="circle" :class="[{'scale': button.mouseover && __window.width >= 700}, button.mouseover && __window.width >= 700 ? `veil-background` : null, button.click ? `normal-background` : null]" v-for="n in 2" :key="n['.key']"></div>
       <img v-if="button.link" class="button-img" :src="`/static/img/buttons/${button.link}-black.png`">
       <p v-if="button.label" class="button-label">{{button.label}}</p>
@@ -114,7 +114,7 @@ export default {
     redirectCreateList () {
       this.$router.push('/account/my-list/create')
     },
-    async updateDb () {
+    async updateDb (idButton, clickButton) {
       let user = this.__user
       let buttons = this.__buttonsForSave
       let film = null
@@ -126,17 +126,36 @@ export default {
 
       db.ref(`users/${user.uid}/films/${film.id}`).set(buttons)
 
-      db.ref(`users/${this.__user.uid}/last/film`).update({
-        id: film.id,
-        createdAt: date.toString(),
-        buttons: buttons
-      })
+      if (idButton === 2) {
+        console.log(user)
+        if (clickButton && user.pseudo) {
+          db.ref(`community/last/favorite`).set({
+            uid: this.__user.uid,
+            id: film.id,
+            createdAt: date.toString()
+          })
+        }
 
-      db.ref(`community/last/film`).update({
-        uid: this.__user.uid,
-        id: film.id,
-        createdAt: date.toString()
-      })
+        db.ref(`users/${this.__user.uid}/last/favorite`).set({
+          id: film.id,
+          createdAt: date.toString(),
+          buttons: buttons
+        })
+      } else {
+        if (user.pseudo) {
+          db.ref(`community/last/film`).set({
+            uid: this.__user.uid,
+            id: film.id,
+            createdAt: date.toString()
+          })
+        }
+
+        db.ref(`users/${this.__user.uid}/last/film`).set({
+          id: film.id,
+          createdAt: date.toString(),
+          buttons: buttons
+        })
+      }
 
       db.ref(`films/added/${film.id}`).set({
         id: film.id,

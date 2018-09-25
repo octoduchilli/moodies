@@ -17,33 +17,52 @@
       </router-link>
       <basic-button class="margin" :button="buttons.toSearch"/>
     </div>
-    <div v-if="last.film.user && last.rate.user && last.film.film && last.rate.film" class="margin-20 column align-center text-center">
+    <div v-if="last.film.user && last.rate.user && last.favorite.user && last.film.film && last.rate.film && last.favorite.film" class="margin-20 column align-center text-center">
       <h2 class="padding-10 margin-0">Les dernières activités</h2>
       <div class="last-activity wrap justi-center">
         <div class="column margin-10">
           <div class="activity column align-center">
-            <div class="pseudo flex justi-center align-center">
-              {{last.film.user.pseudoBase}}
+            <div class="row align-center">
+              <router-link :to="`/users/${last.favorite.user.pseudoLower}`" class="pseudo link flex justi-center align-center" style="margin-right: 15px">
+                {{last.favorite.user.pseudoBase}}
+              </router-link>
+              <p style="font-size: 14px">a ajouté en favoris</p>
             </div>
-            <p>S'est intéressé à</p>
-            <router-link class="film link flex align-center justi-center height" :to="`/film/${last.film.film.id}`">
-              <img :src="w500(last.film.film.poster_path)" class="film-poster" onerror="this.src = '/static/img/buttons/picture-white.png'; this.style.opacity = '.2'">
-              <p v-if="last.rate.film.title">{{last.film.film.title}}</p>
+            <router-link class="film link flex align-center justi-center height" :to="`/film/${last.favorite.film.id}`">
+              <img :src="w500(last.favorite.film.poster_path)" class="film-poster" onerror="this.src = '/static/img/buttons/picture-white.png'; this.style.opacity = '.2'">
+              <p v-if="last.favorite.film.title">{{last.favorite.film.title}}</p>
             </router-link>
-            <p><span style="color: grey; font-size: 14px">le </span>{{last.film.createdAt | moment("Do MMMM YYYY à H:mm")}}</p>
+            <p style="font-size: 13px"><span style="color: grey; font-size: 12px">le </span>{{last.favorite.createdAt | moment("Do MMMM YYYY à H:mm")}}</p>
           </div>
         </div>
         <div class="column margin-10">
           <div class="activity column align-center">
-            <div class="pseudo flex justi-center align-center">
-              {{last.rate.user.pseudoBase}}
+            <div class="row align-center">
+              <router-link :to="`/users/${last.film.user.pseudoLower}`" class="pseudo link flex justi-center align-center" style="margin-right: 15px">
+                {{last.film.user.pseudoBase}}
+              </router-link>
+              <p style="font-size: 14px">s'est intéressé à</p>
             </div>
-            <p>À noté {{last.rate.value / 2}} / 5</p>
+            <router-link class="film link flex align-center justi-center height" :to="`/film/${last.film.film.id}`">
+              <img :src="w500(last.film.film.poster_path)" class="film-poster" onerror="this.src = '/static/img/buttons/picture-white.png'; this.style.opacity = '.2'">
+              <p v-if="last.film.film.title">{{last.film.film.title}}</p>
+            </router-link>
+            <p style="font-size: 13px"><span style="color: grey; font-size: 12px">le </span>{{last.film.createdAt | moment("Do MMMM YYYY à H:mm")}}</p>
+          </div>
+        </div>
+        <div class="column margin-10">
+          <div class="activity column align-center">
+            <div class="row align-center">
+              <router-link :to="`/users/${last.rate.user.pseudoLower}`" class="pseudo link flex justi-center align-center" style="margin-right: 15px">
+                {{last.rate.user.pseudoBase}}
+              </router-link>
+              <p style="font-size: 14px">a noté {{last.rate.value / 2}} / 5</p>
+            </div>
             <router-link class="film link flex align-center justi-center height" :to="`/film/${last.rate.film.id}`">
               <img :src="w500(last.rate.film.poster_path)" class="film-poster" onerror="this.src = '/static/img/buttons/picture-white.png'; this.style.opacity = '.2'">
               <p v-if="last.rate.film.title">{{last.rate.film.title}}</p>
             </router-link>
-            <p><span style="color: grey; font-size: 14px">le </span>{{last.rate.votedAt | moment("Do MMMM YYYY à H:mm")}}</p>
+            <p style="font-size: 13px"><span style="color: grey; font-size: 12px">le </span>{{last.rate.votedAt | moment("Do MMMM YYYY à H:mm")}}</p>
           </div>
         </div>
       </div>
@@ -73,6 +92,11 @@ export default {
           user: null,
           createdAt: null
         },
+        favorite: {
+          film: null,
+          user: null,
+          createdAt: null
+        },
         rate: {
           film: null,
           user: null,
@@ -86,7 +110,7 @@ export default {
     this.$store.state.route.selected = 4
     this.$router.push('/community/users')
 
-    db.ref('community/last/film').once('value', lastfilm => {
+    db.ref('community/last/film').on('value', lastfilm => {
       lastfilm = lastfilm.val()
       this.last.film.createdAt = lastfilm.createdAt
 
@@ -99,7 +123,7 @@ export default {
       })
     })
 
-    db.ref('community/last/rate').once('value', lastrate => {
+    db.ref('community/last/rate').on('value', lastrate => {
       lastrate = lastrate.val()
       this.last.rate.value = lastrate.value
       this.last.rate.votedAt = lastrate.votedAt
@@ -110,6 +134,19 @@ export default {
 
       db.ref(`films/added/${lastrate.id}`).once('value', film => {
         this.last.rate.film = film.val()
+      })
+    })
+
+    db.ref('community/last/favorite').on('value', lastfavorite => {
+      lastfavorite = lastfavorite.val()
+      this.last.favorite.createdAt = lastfavorite.createdAt
+
+      db.ref(`community/users/${lastfavorite.uid}`).once('value', user => {
+        this.last.favorite.user = user.val()
+      })
+
+      db.ref(`films/added/${lastfavorite.id}`).once('value', film => {
+        this.last.favorite.film = film.val()
       })
     })
   },

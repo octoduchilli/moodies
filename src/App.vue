@@ -207,6 +207,10 @@ export default {
             }
           })
 
+          if (idFilms.length === 0) {
+            this.$store.state.user.fetchFilms = false
+          }
+
           db.ref(`community/users/${user.uid}`).update({
             id: user.uid,
             films: idFilms.length,
