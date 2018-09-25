@@ -17,52 +17,52 @@
       </router-link>
       <basic-button class="margin" :button="buttons.toSearch"/>
     </div>
-    <div v-if="last.film.user && last.rate.user && last.favorite.user && last.film.film && last.rate.film && last.favorite.film" class="margin-20 column align-center text-center">
+    <div v-if="__community.last.film.user && __community.last.rate.user && __community.last.favorite.user && __community.last.film.film && __community.last.rate.film && __community.last.favorite.film" class="margin-20 column align-center text-center">
       <h2 class="padding-10 margin-0">Les dernières activités</h2>
       <div class="last-activity wrap justi-center">
         <div class="column margin-10">
           <div class="activity column align-center">
             <div class="row align-center">
-              <router-link :to="`/users/${last.favorite.user.pseudoLower}`" class="pseudo link flex justi-center align-center" style="margin-right: 15px">
-                {{last.favorite.user.pseudoBase}}
+              <router-link :to="`/users/${__community.last.favorite.user.pseudoLower}`" class="pseudo link flex justi-center align-center" style="margin-right: 15px">
+                {{__community.last.favorite.user.pseudoBase}}
               </router-link>
               <p style="font-size: 14px">a ajouté en favoris</p>
             </div>
-            <router-link class="film link flex align-center justi-center height" :to="`/film/${last.favorite.film.id}`">
-              <img :src="w500(last.favorite.film.poster_path)" class="film-poster" onerror="this.src = '/static/img/buttons/picture-white.png'; this.style.opacity = '.2'">
-              <p v-if="last.favorite.film.title">{{last.favorite.film.title}}</p>
+            <router-link class="film link flex align-center justi-center height" :to="`/film/${__community.last.favorite.film.id}`">
+              <img :src="w500(__community.last.favorite.film.poster_path)" class="film-poster" onerror="this.src = '/static/img/buttons/picture-white.png'; this.style.opacity = '.2'">
+              <p v-if="__community.last.favorite.film.title">{{__community.last.favorite.film.title}}</p>
             </router-link>
-            <p style="font-size: 13px"><span style="color: grey; font-size: 12px">le </span>{{last.favorite.createdAt | moment("Do MMMM YYYY à H:mm")}}</p>
+            <p style="font-size: 13px"><span style="color: grey; font-size: 12px">le </span>{{__community.last.favorite.createdAt | moment("Do MMMM YYYY à H:mm")}}</p>
           </div>
         </div>
         <div class="column margin-10">
           <div class="activity column align-center">
             <div class="row align-center">
-              <router-link :to="`/users/${last.film.user.pseudoLower}`" class="pseudo link flex justi-center align-center" style="margin-right: 15px">
-                {{last.film.user.pseudoBase}}
+              <router-link :to="`/users/${__community.last.film.user.pseudoLower}`" class="pseudo link flex justi-center align-center" style="margin-right: 15px">
+                {{__community.last.film.user.pseudoBase}}
               </router-link>
               <p style="font-size: 14px">s'est intéressé à</p>
             </div>
-            <router-link class="film link flex align-center justi-center height" :to="`/film/${last.film.film.id}`">
-              <img :src="w500(last.film.film.poster_path)" class="film-poster" onerror="this.src = '/static/img/buttons/picture-white.png'; this.style.opacity = '.2'">
-              <p v-if="last.film.film.title">{{last.film.film.title}}</p>
+            <router-link class="film link flex align-center justi-center height" :to="`/film/${__community.last.film.film.id}`">
+              <img :src="w500(__community.last.film.film.poster_path)" class="film-poster" onerror="this.src = '/static/img/buttons/picture-white.png'; this.style.opacity = '.2'">
+              <p v-if="__community.last.film.film.title">{{__community.last.film.film.title}}</p>
             </router-link>
-            <p style="font-size: 13px"><span style="color: grey; font-size: 12px">le </span>{{last.film.createdAt | moment("Do MMMM YYYY à H:mm")}}</p>
+            <p style="font-size: 13px"><span style="color: grey; font-size: 12px">le </span>{{__community.last.film.createdAt | moment("Do MMMM YYYY à H:mm")}}</p>
           </div>
         </div>
         <div class="column margin-10">
           <div class="activity column align-center">
             <div class="row align-center">
-              <router-link :to="`/users/${last.rate.user.pseudoLower}`" class="pseudo link flex justi-center align-center" style="margin-right: 15px">
-                {{last.rate.user.pseudoBase}}
+              <router-link :to="`/users/${__community.last.rate.user.pseudoLower}`" class="pseudo link flex justi-center align-center" style="margin-right: 15px">
+                {{__community.last.rate.user.pseudoBase}}
               </router-link>
-              <p style="font-size: 14px">a noté {{last.rate.value / 2}} / 5</p>
+              <p style="font-size: 14px">a noté {{__community.last.rate.value / 2}} / 5</p>
             </div>
-            <router-link class="film link flex align-center justi-center height" :to="`/film/${last.rate.film.id}`">
-              <img :src="w500(last.rate.film.poster_path)" class="film-poster" onerror="this.src = '/static/img/buttons/picture-white.png'; this.style.opacity = '.2'">
-              <p v-if="last.rate.film.title">{{last.rate.film.title}}</p>
+            <router-link class="film link flex align-center justi-center height" :to="`/film/${__community.last.rate.film.id}`">
+              <img :src="w500(__community.last.rate.film.poster_path)" class="film-poster" onerror="this.src = '/static/img/buttons/picture-white.png'; this.style.opacity = '.2'">
+              <p v-if="__community.last.rate.film.title">{{__community.last.rate.film.title}}</p>
             </router-link>
-            <p style="font-size: 13px"><span style="color: grey; font-size: 12px">le </span>{{last.rate.votedAt | moment("Do MMMM YYYY à H:mm")}}</p>
+            <p style="font-size: 13px"><span style="color: grey; font-size: 12px">le </span>{{__community.last.rate.votedAt | moment("Do MMMM YYYY à H:mm")}}</p>
           </div>
         </div>
       </div>
@@ -85,24 +85,6 @@ export default {
           click: false,
           label: 'C\'est parti !'
         }
-      },
-      last: {
-        film: {
-          film: null,
-          user: null,
-          createdAt: null
-        },
-        favorite: {
-          film: null,
-          user: null,
-          createdAt: null
-        },
-        rate: {
-          film: null,
-          user: null,
-          value: null,
-          votedAt: null
-        }
       }
     }
   },
@@ -110,49 +92,54 @@ export default {
     this.$store.state.route.selected = 4
     this.$router.push('/community/users')
 
+    let last = this.__community.last
+
     db.ref('community/last/film').on('value', lastfilm => {
       lastfilm = lastfilm.val()
-      this.last.film.createdAt = lastfilm.createdAt
+      last.film.createdAt = lastfilm.createdAt
 
       db.ref(`community/users/${lastfilm.uid}`).once('value', user => {
-        this.last.film.user = user.val()
+        last.film.user = user.val()
       })
 
       db.ref(`films/added/${lastfilm.id}`).once('value', film => {
-        this.last.film.film = film.val()
+        last.film.film = film.val()
       })
     })
 
     db.ref('community/last/rate').on('value', lastrate => {
       lastrate = lastrate.val()
-      this.last.rate.value = lastrate.value
-      this.last.rate.votedAt = lastrate.votedAt
+      last.rate.value = lastrate.value
+      last.rate.votedAt = lastrate.votedAt
 
       db.ref(`community/users/${lastrate.uid}`).once('value', user => {
-        this.last.rate.user = user.val()
+        last.rate.user = user.val()
       })
 
       db.ref(`films/added/${lastrate.id}`).once('value', film => {
-        this.last.rate.film = film.val()
+        last.rate.film = film.val()
       })
     })
 
     db.ref('community/last/favorite').on('value', lastfavorite => {
       lastfavorite = lastfavorite.val()
-      this.last.favorite.createdAt = lastfavorite.createdAt
+      last.favorite.createdAt = lastfavorite.createdAt
 
       db.ref(`community/users/${lastfavorite.uid}`).once('value', user => {
-        this.last.favorite.user = user.val()
+        last.favorite.user = user.val()
       })
 
       db.ref(`films/added/${lastfavorite.id}`).once('value', film => {
-        this.last.favorite.film = film.val()
+        last.favorite.film = film.val()
       })
     })
   },
   computed: {
     __user () {
       return this.$store.state.user
+    },
+    __community () {
+      return this.$store.state.community
     }
   },
   watch: {
