@@ -50,7 +50,7 @@
     <list-wrap-with-buttons class="pad-left" v-if="__user.view.type === 'poster-buttons' && __showList" :list="__list"/>
     <basic-link-name-list class="pad-left" v-if="__user.view.type === 'title' && __showList" :list="__list"/>
     <basic-button class="margin-20" v-if="__list.length !== __user.films.actived.length && __showList" :button="buttons.nextPage"/>
-    <router-view/>
+    <router-view class="pad-left"/>
   </div>
 </template>
 
@@ -237,7 +237,7 @@ export default {
       return final
     },
     __showList () {
-      if (this.$route.fullPath === '/users/queen') {
+      if (this.$route.matched.length === 1) {
         return true
       }
 
