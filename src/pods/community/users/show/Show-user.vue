@@ -6,8 +6,8 @@
     </header>
     <filters-pannel/>
     <h1 class="pad-left text-center">{{privateAccount ? 'Profil privé' : fetch ? 'Un instant...' : __user.pseudo ? `Profil de ${__user.pseudo}` : null}}</h1>
-    <p v-if="!privateAccount && lastActivity" class="text-center pad-left"><span style="color: grey; font-size: 10px; margin-right: 5px">Dernière activité :</span>{{lastActivity | moment("Do MMMM YYYY à H:mm")}}</p>
-    <div class="wrap align-center pad-left justi-center">
+    <p v-if="!privateAccount && lastActivity" class="text-center pad-left"><span style="color: grey; font-size: 10px; margin-right: 5px">Dernière activité :</span>{{lastActivity | moment("Do MMMM YYYY à H:mm")}} - <router-link style="color: white" :to="`/users/${pseudoLower}/activity`">Voir plus</router-link></p>
+    <div v-if="__showList" class="wrap align-center pad-left justi-center">
       <div class="column align-center padding-20 margin-10" style="border-radius: 10px; background: var(--black40); min-height: 170px;">
         <p class="text-center" style="margin-top: 0">Gérez l'affichage : </p>
         <nav class="nav-top-show-user row justi-center align-center">
@@ -40,16 +40,17 @@
         <p class="margin-0" style="font-size: 10px; color: grey; height: 11px">{{__user.view.compareList.notViewed.on ? 'Affiche les films que vous n\'avez pas vus uniquement.' : null}}</p>
       </div>
     </div>
-    <ul class="actived-filters-list basic-list justi-center" :class="[__window.width > 500 ? 'wrap' : 'column align-center']">
+    <ul v-if="__showList" class="actived-filters-list basic-list justi-center" :class="[__window.width > 500 ? 'wrap' : 'column align-center']">
       <p class="text-center flex justi-center align-center" v-if="__activedFilters.length > 0">Liste triée selon :</p>
       <li @mouseover="actived.mouseover = true" @mouseout="actived.mouseover = false" @click="actived.choice.choose + 1 === 4 ? actived.choice.choose = 1 : actived.choice.choose++" :style="{'background': actived.mouseover ? actived.color : null}" class="actived-filter" v-for="actived in __activedFilters" :key="actived.id">
         <p class="actived-filter-name unselectable" :style="{'color': actived.mouseover ? actived.color : null}">{{actived.name}} - {{actived.choice.content[actived.choice.choose - 1].name}}</p>
       </li>
     </ul>
-    <basic-link-image-list-wrap class="pad-left" v-if="__user.view.type === 'poster'" :list="__list"/>
-    <list-wrap-with-buttons class="pad-left" v-if="__user.view.type === 'poster-buttons'" :list="__list"/>
-    <basic-link-name-list class="pad-left" v-if="__user.view.type === 'title'" :list="__list"/>
-    <basic-button class="margin-20" v-if="__list.length !== __user.films.actived.length" :button="buttons.nextPage"/>
+    <basic-link-image-list-wrap class="pad-left" v-if="__user.view.type === 'poster' && __showList" :list="__list"/>
+    <list-wrap-with-buttons class="pad-left" v-if="__user.view.type === 'poster-buttons' && __showList" :list="__list"/>
+    <basic-link-name-list class="pad-left" v-if="__user.view.type === 'title' && __showList" :list="__list"/>
+    <basic-button class="margin-20" v-if="__list.length !== __user.films.actived.length && __showList" :button="buttons.nextPage"/>
+    <router-view/>
   </div>
 </template>
 
@@ -77,6 +78,7 @@ export default {
           label: 'show-button'
         }
       },
+      pseudoLower: undefined,
       nextPage: false,
       fetch: false,
       fetchFilmsNum: 0,
@@ -87,8 +89,10 @@ export default {
   async created () {
     this.$store.state.route.selected = 4
     let pseudoLower = this.$route.params.id
+    this.pseudoLower = this.$route.params.id
     let uid = null
     let privateAccount = null
+
     if (this.__user.view.type === 'poster-buttons') {
       this.buttons.showButtons.on = true
     }
@@ -231,6 +235,13 @@ export default {
       })
 
       return final
+    },
+    __showList () {
+      if (this.$route.fullPath === '/users/queen') {
+        return true
+      }
+
+      return false
     }
   },
   watch: {
