@@ -1,5 +1,8 @@
 $ocean: rgb(161, 250, 250);
 
+$before: yellow;
+$after: rgb(161, 250, 250);
+
 .community {
   padding: 120px 0;
 
@@ -63,7 +66,7 @@ $ocean: rgb(161, 250, 250);
           .pseudo-bg {
             transform: translateY(-3px);
 
-            background: linear-gradient(to bottom, rgba($color: $ocean, $alpha: 1.0), rgba($color: $ocean, $alpha: 0) 75%);
+            opacity: 1;
           }
         }
 
@@ -108,9 +111,11 @@ $ocean: rgb(161, 250, 250);
 
           border-radius: 50%;
 
-          background: linear-gradient(to bottom, rgba($color: yellow, $alpha: 1.0), rgba($color: yellow, $alpha: 0) 75%);
+          background: linear-gradient(to bottom, rgba($color: $before, $alpha: 1.0), rgba($color: $before, $alpha: 0) 75%);
 
           transition: .5s ease;
+
+          opacity: .8;
         }
       }
 
