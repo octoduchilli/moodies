@@ -199,6 +199,14 @@ export default {
           this.savedColors = true
         }, 500)
       })
+
+      let users = this.$store.state.community.users.list
+
+      let f = users.find(_ => String(_.id) === String(this.__user.uid))
+
+      if (f) {
+        f.color = this.color
+      }
     }
   }
 }
