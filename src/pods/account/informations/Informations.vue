@@ -77,7 +77,7 @@ export default {
       snap = snap.val()
 
       this.buttons.private.on = snap.privateAccount || false
-      this.color = snap.color|| null
+      this.color = snap.color || null
     })
 
     let color = new iro.ColorPicker('#color', {
