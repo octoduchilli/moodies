@@ -193,6 +193,10 @@ export default {
       if (div && user.color) {
         let rgb = this.hex2rgb(user.color)
         div.style.background = `linear-gradient(to bottom, rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, 1), rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, 0) 75%)`
+      } else if (div) {
+        setTimeout(() => {
+          div.style.background = `linear-gradient(to bottom, rgba(255, 255, 0, 1), rgba(255, 255, 0, 0) 75%)`
+        })
       }
     },
     hex2rgb (hex) {
