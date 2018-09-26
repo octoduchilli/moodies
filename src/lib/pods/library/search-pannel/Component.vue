@@ -93,7 +93,7 @@ export default {
       if (this.__window.width < 800) {
         setTimeout(() => {
           window.scroll({
-            top: document.getElementsByClassName('search-name-list')[0].offsetTop - 150,
+            top: (document.getElementsByClassName('search-name-list')[0] ? document.getElementsByClassName('search-name-list')[0].offsetTop : document.getElementsByClassName('no-result')[0].offsetTop) - 150,
             left: 0,
             behavior: 'smooth'
           })

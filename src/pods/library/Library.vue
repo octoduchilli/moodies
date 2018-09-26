@@ -6,7 +6,7 @@
       <index v-if="__library.index"/>
       <div v-else class="column align-center width">
         <h1 class="text-center" v-if="__library.search.isSearching">Un instant...</h1>
-        <h1 class="text-center" v-if="!__library.search.isSearching && __library.search.input.text && __library.search.film.items.length === 0 && __library.search.person.items.length === 0 && __library.search.discover.items.length === 0">Aucun résultat pour {{__library.search.input.text}}</h1>
+        <h1 class="no-result text-center" v-if="!__library.search.isSearching && __library.search.input.text && __library.search.film.items.length === 0 && __library.search.person.items.length === 0 && __library.search.discover.items.length === 0">Aucun résultat pour {{__library.search.input.text}}</h1>
         <search-name-list v-if="(__library.search.film.items.length > 0 && !__library.search.isSearching) || (__library.search.person.items.length > 0 && !__library.search.isSearching)" :lists="__library.search"/>
         <discover-film-list v-if="__library.search.discover.items.length > 0" :list="__library.search.discover"/>
       </div>
