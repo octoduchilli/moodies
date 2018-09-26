@@ -127,7 +127,6 @@ export default {
       db.ref(`users/${user.uid}/films/${film.id}`).set(buttons)
 
       if (idButton === 2) {
-        console.log(user)
         if (clickButton && user.pseudo) {
           db.ref(`community/last/favorite`).set({
             uid: this.__user.uid,
