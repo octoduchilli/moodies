@@ -188,15 +188,17 @@ export default {
   },
   methods: {
     setColorPseudo (user) {
-      let div = document.getElementsByClassName(`${user.pseudoLower}-pseudo-bg-community`)[0]
+      let divs = document.getElementsByClassName(`${user.pseudoLower}-pseudo-bg-community`)
 
-      if (div && user.color) {
-        let rgb = this.hex2rgb(user.color)
-        div.style.background = `linear-gradient(to bottom, rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, 1), rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, 0) 75%)`
-      } else if (div) {
-        setTimeout(() => {
+      for (let index in divs) {
+        let div = divs[index]
+
+        if (typeof div === 'object' && user.color) {
+          let rgb = this.hex2rgb(user.color)
+          div.style.background = `linear-gradient(to bottom, rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, 1), rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, 0) 75%)`
+        } else if (typeof div === 'object') {
           div.style.background = `linear-gradient(to bottom, rgba(255, 255, 0, 1), rgba(255, 255, 0, 0) 75%)`
-        })
+        }
       }
     },
     hex2rgb (hex) {
