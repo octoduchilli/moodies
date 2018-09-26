@@ -12,8 +12,11 @@
     </div>
     <ul class="user-list basic-list wrap align-center justi-center width">
       <router-link :to="`/users/${user.pseudoLower.toLowerCase()}`" class="user link row justi-around align-center" v-for="user in __users.list" :key="user.pseudoLower">
-        <div class="pseudo flex justi-center align-center">
-          {{user.pseudoBase}}
+        <div class="div-pseudo">
+          <div class="pseudo flex justi-center align-center">
+            {{user.pseudoBase}}
+          </div>
+          <div class="pseudo-bg"></div>
         </div>
         <div class="column">
           <div class="row justi-center">

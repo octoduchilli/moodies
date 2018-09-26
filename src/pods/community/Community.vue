@@ -22,9 +22,12 @@
       <div class="last-activity wrap justi-center">
         <div class="activity column align-center margin-10">
           <div class="row align-center">
-            <router-link :to="`/users/${__community.last.favorite.user.pseudoLower}`" class="pseudo link flex justi-center align-center" style="margin-right: 15px">
-              {{__community.last.favorite.user.pseudoBase}}
-            </router-link>
+            <div class="div-pseudo" style="margin-right: 15px">
+              <router-link :to="`/users/${__community.last.favorite.user.pseudoLower}`" class="pseudo link flex justi-center align-center">
+                {{__community.last.favorite.user.pseudoBase}}
+              </router-link>
+              <div class="pseudo-bg"></div>
+            </div>
             <p style="font-size: 14px">a ajouté en favoris</p>
           </div>
           <router-link class="film link flex align-center justi-center height" :to="`/film/${__community.last.favorite.film.id}`">
@@ -35,9 +38,12 @@
         </div>
         <div class="activity column align-center margin-10">
           <div class="row align-center">
-            <router-link :to="`/users/${__community.last.film.user.pseudoLower}`" class="pseudo link flex justi-center align-center" style="margin-right: 15px">
-              {{__community.last.film.user.pseudoBase}}
-            </router-link>
+            <div class="div-pseudo" style="margin-right: 15px">
+              <router-link :to="`/users/${__community.last.film.user.pseudoLower}`" class="pseudo link flex justi-center align-center">
+                {{__community.last.film.user.pseudoBase}}
+              </router-link>
+              <div class="pseudo-bg"></div>
+            </div>
             <p style="font-size: 14px">s'est intéressé à</p>
           </div>
           <router-link class="film link flex align-center justi-center height" :to="`/film/${__community.last.film.film.id}`">
@@ -48,9 +54,12 @@
         </div>
         <div class="activity column align-center margin-10">
           <div class="row align-center">
-            <router-link :to="`/users/${__community.last.rate.user.pseudoLower}`" class="pseudo link flex justi-center align-center" style="margin-right: 15px">
-              {{__community.last.rate.user.pseudoBase}}
-            </router-link>
+            <div class="div-pseudo" style="margin-right: 15px">
+              <router-link :to="`/users/${__community.last.rate.user.pseudoLower}`" class="pseudo link flex justi-center align-center">
+                {{__community.last.rate.user.pseudoBase}}
+              </router-link>
+              <div class="pseudo-bg"></div>
+            </div>
             <p style="font-size: 14px">a noté {{__community.last.rate.value / 2}} / 5</p>
           </div>
           <router-link class="film link flex align-center justi-center height" :to="`/film/${__community.last.rate.film.id}`">
