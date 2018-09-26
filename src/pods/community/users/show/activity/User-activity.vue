@@ -1,6 +1,5 @@
 <template>
   <div class="user-activity column align-center">
-    <basic-button :button="buttons.back"/>
     <div class="margin-10 wrap justi-center">
       <div v-if="last.favorite" class="activity column align-center margin-10">
         <p>a ajouté en favoris</p>
@@ -38,12 +37,6 @@ export default {
   mixins: [imageMixin],
   data () {
     return {
-      buttons: {
-        back: {
-          click: false,
-          label: 'RETOUR'
-        }
-      },
       last: {
         film: null,
         rate: null,
@@ -79,11 +72,6 @@ export default {
         })
       })
     })
-  },
-  watch: {
-    'buttons.back.click' (click) {
-      this.$router.go(-1)
-    }
   }
 }
 </script>
