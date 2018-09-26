@@ -16,7 +16,7 @@
           <div class="pseudo flex justi-center align-center">
             {{user.pseudoBase}}
           </div>
-          <div class="pseudo-bg"></div>
+          <div class="pseudo-bg" :class="`${user.pseudoLower}-pseudo-bg`"></div>
         </div>
         <div class="column">
           <div class="row justi-center">
@@ -62,6 +62,9 @@ export default {
   created () {
     this.fetchDropdownsUsers()
   },
+  mounted () {
+    this.setColorPseudo()
+  },
   destroyed () {
     window.scroll({
       top: 0,
@@ -97,6 +100,7 @@ export default {
     },
     '__users.list' () {
       setTimeout(() => {
+        this.setColorPseudo()
         this.nextPage = false
       })
     },
@@ -199,6 +203,22 @@ export default {
           behavior: 'smooth'
         })
       }
+    },
+    setColorPseudo () {
+      let users = this.__users.list
+
+      for (let i = 0; i < users.length; i++) {
+        let user = users[i]
+        let div = document.getElementsByClassName(`${user.pseudoLower}-pseudo-bg`)[0]
+
+        if (div && user.color) {
+          let rgb = this.hex2rgb(user.color)
+          div.style.background = `linear-gradient(to bottom, rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, 1), rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, 0) 75%)`
+        }
+      }
+    },
+    hex2rgb (hex) {
+      return ['0x' + hex[1] + hex[2] | 0, '0x' + hex[3] + hex[4] | 0, '0x' + hex[5] + hex[6] | 0]
     }
   }
 }
