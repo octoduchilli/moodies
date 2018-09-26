@@ -26,7 +26,7 @@
               <router-link :to="`/users/${__community.last.favorite.user.pseudoLower}`" class="pseudo link flex justi-center align-center">
                 {{__community.last.favorite.user.pseudoBase}}
               </router-link>
-              <div class="pseudo-bg"></div>
+              <div class="pseudo-bg" :class="`${__community.last.favorite.user.pseudoLower}-pseudo-bg-community`"></div>
             </div>
             <p style="font-size: 14px">a ajouté en favoris</p>
           </div>
@@ -42,7 +42,7 @@
               <router-link :to="`/users/${__community.last.film.user.pseudoLower}`" class="pseudo link flex justi-center align-center">
                 {{__community.last.film.user.pseudoBase}}
               </router-link>
-              <div class="pseudo-bg"></div>
+              <div class="pseudo-bg" :class="`${__community.last.film.user.pseudoLower}-pseudo-bg-community`"></div>
             </div>
             <p style="font-size: 14px">s'est intéressé à</p>
           </div>
@@ -58,7 +58,7 @@
               <router-link :to="`/users/${__community.last.rate.user.pseudoLower}`" class="pseudo link flex justi-center align-center">
                 {{__community.last.rate.user.pseudoBase}}
               </router-link>
-              <div class="pseudo-bg"></div>
+              <div class="pseudo-bg" :class="`${__community.last.rate.user.pseudoLower}-pseudo-bg-community`"></div>
             </div>
             <p style="font-size: 14px">a noté {{__community.last.rate.value / 2}} / 5</p>
           </div>
@@ -101,13 +101,19 @@ export default {
       lastfilm = lastfilm.val()
       last.film.createdAt = lastfilm.createdAt
 
-      db.ref(`community/users/${lastfilm.uid}`).once('value', user => {
-        last.film.user = user.val()
-      })
+      setTimeout(() => {
+        db.ref(`films/added/${lastfilm.id}`).once('value', film => {
+          last.film.film = film.val()
+        })
 
-      db.ref(`films/added/${lastfilm.id}`).once('value', film => {
-        last.film.film = film.val()
-      })
+        db.ref(`community/users/${lastfilm.uid}`).once('value', user => {
+          last.film.user = user.val()
+
+          setTimeout(() => {
+            this.setColorPseudo(user.val())
+          })
+        })
+      }, 500)
     })
 
     db.ref('community/last/rate').on('value', lastrate => {
@@ -115,27 +121,49 @@ export default {
       last.rate.value = lastrate.value
       last.rate.votedAt = lastrate.votedAt
 
-      db.ref(`community/users/${lastrate.uid}`).once('value', user => {
-        last.rate.user = user.val()
-      })
+      setTimeout(() => {
+        db.ref(`films/added/${lastrate.id}`).once('value', film => {
+          last.rate.film = film.val()
+        })
 
-      db.ref(`films/added/${lastrate.id}`).once('value', film => {
-        last.rate.film = film.val()
-      })
+        db.ref(`community/users/${lastrate.uid}`).once('value', user => {
+          last.rate.user = user.val()
+
+          setTimeout(() => {
+            this.setColorPseudo(user.val())
+          })
+        })
+      }, 500)
     })
 
     db.ref('community/last/favorite').on('value', lastfavorite => {
       lastfavorite = lastfavorite.val()
       last.favorite.createdAt = lastfavorite.createdAt
 
-      db.ref(`community/users/${lastfavorite.uid}`).once('value', user => {
-        last.favorite.user = user.val()
-      })
+      setTimeout(() => {
+        db.ref(`films/added/${lastfavorite.id}`).once('value', film => {
+          last.favorite.film = film.val()
+        })
 
-      db.ref(`films/added/${lastfavorite.id}`).once('value', film => {
-        last.favorite.film = film.val()
-      })
+        db.ref(`community/users/${lastfavorite.uid}`).once('value', user => {
+          last.favorite.user = user.val()
+
+          setTimeout(() => {
+            this.setColorPseudo(user.val())
+          })
+        })
+      }, 500)
     })
+  },
+  mounted () {
+    let last = this.__community.last
+    for (let index in last) {
+      let _ = last[index]
+
+      if (_.user) {
+        this.setColorPseudo(_.user)
+      }
+    }
   },
   computed: {
     __user () {
@@ -156,6 +184,19 @@ export default {
       }
 
       this.buttons.toSearch.click = false
+    }
+  },
+  methods: {
+    setColorPseudo (user) {
+      let div = document.getElementsByClassName(`${user.pseudoLower}-pseudo-bg-community`)[0]
+
+      if (div && user.color) {
+        let rgb = this.hex2rgb(user.color)
+        div.style.background = `linear-gradient(to bottom, rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, 1), rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, 0) 75%)`
+      }
+    },
+    hex2rgb (hex) {
+      return ['0x' + hex[1] + hex[2] | 0, '0x' + hex[3] + hex[4] | 0, '0x' + hex[5] + hex[6] | 0]
     }
   }
 }

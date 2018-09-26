@@ -2,22 +2,29 @@
   <div class="informations column justi-center align-center">
     <div class="card margin-10 column justi-center align-center">
       <h1 class="text-center">Informations du compte</h1>
-      <p style="width: 100%">Nom : {{__user.firstname}}</p>
-      <p style="width: 100%">Prénom : {{__user.lastname}}</p>
-      <p style="width: 100%">Email : {{__user.email}}</p>
+      <p class="width">Nom : {{__user.firstname}}</p>
+      <p class="width">Prénom : {{__user.lastname}}</p>
+      <p class="width">Email : {{__user.email}}</p>
       <div class="row align-center width">
         <p class="margin-10" style="margin-left: 0">Pseudo : </p>
         <basic-input maxlength="12" :input="inputs.pseudo"/>
       </div>
-      <p style="color: red" class="width text-center" v-if="usedPseudo">Pseudo déjà utilisé</p>
-      <p style="color: red" class="width text-center" v-if="notAlphaNum">Pseudo de type Alpha-Numérique uniquement</p>
-      <p style="color: lightgreen" class="width text-center" v-if="savedPseudo">Pseudo enregistré</p>
-      <basic-button class="margin-20" :button="buttons.save"/>
       <div v-if="__user.pseudo" class="width flex justi-between align-center">
         <p class="margin-10" style="margin-left: 0">Compte privé : </p>
         <basic-on-off-button class="margin-20" :button="buttons.private"/>
       </div>
       <p v-if="__user.pseudo" class="margin-0" style="font-size: 10px; color: grey">Activez l'option ci-dessus pour masquer vôtre profil, vos films et vos filtres.</p>
+      <p style="color: red" class="width text-center" v-if="usedPseudo">Pseudo déjà utilisé</p>
+      <p style="color: red" class="width text-center" v-if="notAlphaNum">Pseudo de type Alpha-Numérique uniquement</p>
+      <p style="color: lightgreen" class="width text-center" v-if="savedPseudo">Pseudo enregistré</p>
+      <basic-button class="margin-20" style="width: 230px" :button="buttons.saveInfo"/>
+      <h1 class="text-center">Personnalisation</h1>
+      <div class="column align-center margin-10 padding-10">
+        <div id="color"></div>
+        <p :style="{'color': color}">VOTRE COULEUR</p>
+      </div>
+      <p style="color: lightgreen" class="width text-center" v-if="savedColors">Couleurs enregistrées</p>
+      <basic-button class="margin-20" style="width: 250px" :button="buttons.saveColors"/>
       <basic-button class="margin-20" :button="buttons.back"/>
     </div>
   </div>
@@ -25,6 +32,7 @@
 
 <script>
 import { db } from '@/firebase'
+import iro from '@jaames/iro'
 
 export default {
   data () {
@@ -37,9 +45,13 @@ export default {
         }
       },
       buttons: {
-        save: {
+        saveInfo: {
           click: false,
-          label: 'Enregistrer'
+          label: 'Enregistrer les informations'
+        },
+        saveColors: {
+          click: false,
+          label: 'Enregistrer la personnalisation'
         },
         back: {
           click: false,
@@ -50,9 +62,11 @@ export default {
           label: 'private'
         }
       },
+      color: null,
       usedPseudo: false,
       notAlphaNum: false,
-      savedPseudo: false
+      savedPseudo: false,
+      savedColors: false
     }
   },
   async created () {
@@ -60,7 +74,27 @@ export default {
     this.inputs.pseudo.text = this.__user.pseudo
 
     await db.ref(`community/users/${this.__user.uid}`).once('value', snap => {
-      this.buttons.private.on = snap.val().privateAccount || false
+      snap = snap.val()
+
+      this.buttons.private.on = snap.privateAccount || false
+      this.color = snap.color|| null
+    })
+
+    let color = new iro.ColorPicker('#color', {
+      width: 180,
+      height: 180,
+      color: this.color || {r: 255, g: 255, b: 0},
+      markerRadius: 8,
+      padding: 4,
+      sliderMargin: 10,
+      sliderHeight: 26,
+      borderWidth: 2,
+      borderColor: '#fff',
+      anticlockwise: true
+    })
+
+    color.on('color:change', (color, changes) => {
+      this.color = color.hexString
     })
   },
   computed: {
@@ -74,7 +108,7 @@ export default {
       this.savedPseudo = false
       this.notAlphaNum = false
     },
-    'buttons.save.click' (click) {
+    'buttons.saveInfo.click' (click) {
       let pseudo = this.inputs.pseudo.text
 
       if (pseudo && click) {
@@ -85,7 +119,14 @@ export default {
         }
       }
 
-      this.buttons.save.click = false
+      this.buttons.saveInfo.click = false
+    },
+    'buttons.saveColors.click' (click) {
+      if (click) {
+        this.saveColors()
+      }
+
+      this.buttons.saveColors.click = false
     },
     'buttons.back.click' () {
       this.$router.go(-1)
@@ -140,6 +181,24 @@ export default {
       }
 
       return final
+    },
+    saveColors () {
+      this.savedColors = false
+
+      db.ref(`community/users/${this.__user.uid}`).update({
+        id: this.__user.uid,
+        color: this.color,
+        films: this.__user.buttons.length,
+        inverseFilms: 9999999999999 - this.__user.buttons.length,
+        filters: this.__user.filters.created.length,
+        inverseFilters: 9999999999999 - this.__user.filters.created.length,
+        activity: Date.now(),
+        inverseActivity: 9999999999999 - Date.now()
+      }).then(() => {
+        setTimeout(() => {
+          this.savedColors = true
+        }, 500)
+      })
     }
   }
 }
