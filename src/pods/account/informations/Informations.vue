@@ -23,7 +23,7 @@
         <div id="color"></div>
         <p :style="{'color': color}">VOTRE COULEUR</p>
       </div>
-      <p style="color: lightgreen" class="width text-center" v-if="savedColors">Couleurs enregistrées</p>
+      <p style="color: lightgreen" class="width text-center" v-if="savedColors">Couleur enregistrée</p>
       <basic-button class="margin-20" style="width: 250px" :button="buttons.saveColors"/>
       <basic-button class="margin-20" :button="buttons.back"/>
     </div>
