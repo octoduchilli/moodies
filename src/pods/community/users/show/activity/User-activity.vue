@@ -1,5 +1,5 @@
 <template>
-  <div class="user-activity column align-center">
+  <div class="user-activity column align-center text-center">
     <div class="margin-10 wrap justi-center">
       <div v-if="last.favorite" class="activity column align-center margin-10">
         <p>a ajouté en favoris</p>
