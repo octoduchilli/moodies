@@ -26,6 +26,7 @@ import ModifList from '@/pods/account/my-list/modif/Modif'
 import EditList from '@/pods/account/my-list/modif/edit/Edit'
 
 import Community from '@/pods/community/Community'
+import Activity from '@/pods/community/activity/Activity'
 import Users from '@/pods/community/users/Users'
 import ShowUser from '@/pods/community/users/show/Show-user'
 import UserActivity from '@/pods/community/users/show/activity/User-activity'
@@ -34,6 +35,13 @@ Vue.use(Router)
 
 export default new Router({
   mode: 'history',
+  scrollBehavior (to) {
+    if (to.hash) {
+      return {
+        selector: to.hash
+      }
+    }
+  },
   routes: [
     {
       path: '/',
@@ -121,6 +129,10 @@ export default new Router({
         {
           path: 'users',
           component: Users
+        },
+        {
+          path: 'activity',
+          component: Activity
         }
       ]
     },

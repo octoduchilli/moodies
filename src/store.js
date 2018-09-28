@@ -105,23 +105,11 @@ export default new Vuex.Store({
       }
     },
     community: {
+      start: false,
       last: {
-        film: {
-          film: null,
-          user: null,
-          createdAt: null
-        },
-        favorite: {
-          film: null,
-          user: null,
-          createdAt: null
-        },
-        rate: {
-          film: null,
-          user: null,
-          value: null,
-          votedAt: null
-        }
+        films: [],
+        favorites: [],
+        rates: []
       },
       user: {
         uid: null,
