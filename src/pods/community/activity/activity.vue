@@ -60,7 +60,7 @@ export default {
       final.push({
         list: last.favorites,
         title: 'Favoris',
-        description: 'Les utilisateurs ayant récemment ajouté en favoris',
+        description: 'Les utilisateurs ayant récemment ajoutés en favoris',
         name: 'favorites',
         background: 'orange'
       })
@@ -68,7 +68,7 @@ export default {
       final.push({
         list: last.films,
         title: 'Films',
-        description: 'Les utilisateurs ayant récemment ajouté, modifié ou supprimé',
+        description: 'Les utilisateurs ayant récemment ajoutés, modifiés ou supprimés',
         name: 'films',
         background: 'plum'
       })
@@ -76,7 +76,7 @@ export default {
       final.push({
         list: last.rates,
         title: 'Notes',
-        description: 'Les utilisateurs ayant récemment noté',
+        description: 'Les utilisateurs ayant récemment notés',
         name: 'rates',
         background: 'lightgreen'
       })
