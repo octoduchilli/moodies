@@ -1,7 +1,7 @@
 <template>
   <div class="activity column align-center width">
     <basic-link-button class="margin-10" style="width: 200px" :button="buttons.backToUsers"/>
-    <p class="text-center margin-5">Les listes suivantes sont automatiquement rafraichies. L'historique des activités ne sont valables que lors de vos visites :</p>
+    <p class="text-center margin-5">Les listes suivantes sont automatiquement rafraichies à partir du moment où vous visitez la page communauté. L'historique des activités n'est valable que le temps de votre session sur Moodies :</p>
     <p class="text-center margin-0">Moodies sauvegarde uniquement la dernière activité pour chaque branche.</p>
     <div class="column align-center width">
       <div :id="last.name" :class="last.background" class="div-list-activity column width align-center margin-10" v-for="last in __lastList" :key="last.title">
@@ -46,8 +46,14 @@ export default {
       }
     }
   },
-  created () {
-    console.log(this.$route)
+  mounted () {
+    let last = this.__lastList
+
+    last.forEach(_ => {
+      _.list.forEach(_ => {
+        this.setColorPseudo(_.user)
+      })
+    })
   },
   computed: {
     __community () {
@@ -82,6 +88,36 @@ export default {
       })
 
       return final
+    }
+  },
+  watch: {
+    '__lastList' (last) {
+      setTimeout(() => {
+        last.forEach(_ => {
+          _.list.forEach(_ => {
+            this.setColorPseudo(_.user)
+          })
+        })
+      }, 200)
+    }
+  },
+  methods: {
+    setColorPseudo (user) {
+      let divs = document.getElementsByClassName(`${user.pseudoLower}-pseudo-bg-community`)
+
+      for (let index in divs) {
+        let div = divs[index]
+
+        if (typeof div === 'object' && user.color) {
+          let rgb = this.hex2rgb(user.color)
+          div.style.background = `linear-gradient(to bottom, rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, 1), rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, 0) 75%)`
+        } else if (typeof div === 'object') {
+          div.style.background = `linear-gradient(to bottom, rgba(255, 255, 0, 1), rgba(255, 255, 0, 0) 75%)`
+        }
+      }
+    },
+    hex2rgb (hex) {
+      return ['0x' + hex[1] + hex[2] | 0, '0x' + hex[3] + hex[4] | 0, '0x' + hex[5] + hex[6] | 0]
     }
   }
 }
