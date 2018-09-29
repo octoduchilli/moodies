@@ -189,7 +189,7 @@ export default {
         if (this.__user.filters.actived.length === 0) {
           this.initActivedFilters()
         }
-      }, 300)
+      }, 500)
     } else {
       this.$store.state.community.user.films = {
         all: [],
