@@ -187,16 +187,16 @@ export default {
 
         db.ref('users/' + user.uid + '/films').on('child_changed', film => {
           let f = this.$store.state.user.buttons.findIndex(_ => String(_.id) === String(film.key))
-          if (f !== - 1) {
+          if (f !== -1) {
             this.$store.state.user.buttons[f].buttons = film.val()
           }
         })
 
         db.ref('users/' + user.uid + '/films').on('child_removed', film => {
           let f = this.$store.state.user.buttons.findIndex(_ => String(_.id) === String(film.key))
-          if (f !== - 1) {
+          if (f !== -1) {
             f = this.$store.state.user.films.all.findIndex(_ => String(_.id) === String(film.key))
-            if (f !== - 1) {
+            if (f !== -1) {
               this.$store.state.user.films.all.splice(f, 1)
             }
             this.$store.state.user.buttons.splice(f, 1)
