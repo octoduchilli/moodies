@@ -167,7 +167,43 @@ export default {
 
         this.$store.state.user.fetchFilms = true
 
-        db.ref('users/' + user.uid + '/films').on('value', films => {
+        db.ref('users/' + user.uid + '/films').on('child_added', async film => {
+          if (!this.$store.state.user.fetchFilms) {
+            let f = this.$store.state.user.buttons.find(_ => String(_.id) === String(film.key))
+            if (!f) {
+              f = this.$store.state.user.films.all.find(_ => String(_.id) === String(film.key))
+              if (!f) {
+                await db.ref(`films/added/${film.key}`).once('value', film => {
+                  this.$store.state.user.films.all.push(film.val())
+                })
+              }
+              this.$store.state.user.buttons.push({
+                id: film.key,
+                buttons: film.val()
+              })
+            }
+          }
+        })
+
+        db.ref('users/' + user.uid + '/films').on('child_changed', film => {
+          let f = this.$store.state.user.buttons.findIndex(_ => String(_.id) === String(film.key))
+          if (f !== - 1) {
+            this.$store.state.user.buttons[f].buttons = film.val()
+          }
+        })
+
+        db.ref('users/' + user.uid + '/films').on('child_removed', film => {
+          let f = this.$store.state.user.buttons.findIndex(_ => String(_.id) === String(film.key))
+          if (f !== - 1) {
+            f = this.$store.state.user.films.all.findIndex(_ => String(_.id) === String(film.key))
+            if (f !== - 1) {
+              this.$store.state.user.films.all.splice(f, 1)
+            }
+            this.$store.state.user.buttons.splice(f, 1)
+          }
+        })
+
+        db.ref('users/' + user.uid + '/films').once('value', async films => {
           let idFilms = []
 
           films = films.val()
@@ -182,34 +218,17 @@ export default {
 
           this.$store.state.user.buttons = idFilms
 
-          let i = 0
-
-          idFilms.forEach(_ => {
-            i++
-            let film = this.$store.state.user.films.all.find(film => String(film.id) === String(_.id))
-
-            if (!film) {
-              setTimeout(() => {
-                db.ref(`films/added/${_.id}`).once('value', film => {
-                  this.$store.state.user.fetchFilmsNum += 1
-                  if (film.val()) {
-                    this.$store.state.user.films.all.push(film.val())
-                  }
-
-                  if (this.$store.state.user.films.all.length > idFilms.length - 10) {
-                    this.$store.state.user.fetchFilms = false
-                  }
-                })
-              }, 3 * i)
-            } else if (this.$store.state.user.films.all.length > idFilms.length - 10) {
-              this.$store.state.user.fetchFilms = false
-              this.$store.state.user.fetchFilmsNum = 0
-            }
+          const filmPromises = idFilms.map(({ id }) => {
+            return db.ref(`films/added/${id}`).once('value', film => film)
           })
 
-          if (idFilms.length === 0) {
-            this.$store.state.user.fetchFilms = false
-          }
+          await Promise.all(filmPromises).then(films => {
+            films.forEach(_ => {
+              this.$store.state.user.films.all.push(_.val())
+            })
+          })
+
+          this.$store.state.user.fetchFilms = false
 
           db.ref(`community/users/${user.uid}`).update({
             id: user.uid,
@@ -240,19 +259,6 @@ export default {
   watch: {
     '$route' (route) {
       this.checkRoute(route)
-    },
-    '__user.buttons' (buttons) {
-      let user = this.__user
-
-      for (let i = 0; i < user.films.all.length; i++) {
-        let film = user.films.all[i]
-
-        let find = buttons.find(_ => String(_.id) === String(film.id))
-
-        if (!find) {
-          user.films.all.splice(i, 1)
-        }
-      }
     }
   },
   methods: {
