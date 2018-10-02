@@ -2,7 +2,7 @@
   <div class="show-user column align-center width">
     <header class="show-user-header flex text-center justi-center align-center">
       <p v-if="!fetch" class="margin-0 padding-10">{{`${minToMDHM(__totalRuntime)} - ${__user.films.actived.length} films`}}</p>
-      <p v-else class="margin-0 padding-10">Récupération des films en cours... ({{fetchFilmsNum}})</p>
+      <p v-else class="margin-0 padding-10">Récupération des films en cours...</p>
     </header>
     <filters-pannel/>
     <h1 class="pad-left text-center">{{privateAccount ? 'Profil privé' : fetch ? 'Un instant...' : __user.pseudo ? `Profil de ${__user.pseudo}` : null}}</h1>
@@ -81,7 +81,6 @@ export default {
       pseudoLower: undefined,
       nextPage: false,
       fetch: false,
-      fetchFilmsNum: 0,
       privateAccount: null,
       lastActivity: null
     }
@@ -157,30 +156,17 @@ export default {
 
       this.fetch = true
 
-      let i = 0
+      const filmPromises = idFilms.map(({ id }) => {
+        return db.ref(`films/added/${id}`).once('value', film => film)
+      })
 
-      for (let index in idFilms) {
-        let _ = idFilms[index]
-        let film = this.$store.state.community.user.films.all.find(film => String(film.id) === String(_.id))
+      await Promise.all(filmPromises).then(films => {
+        films.forEach(_ => {
+          this.$store.state.community.user.films.all.push(_.val())
+        })
+      })
 
-        if (!film) {
-          setTimeout(() => {
-            db.ref(`films/added/${_.id}`).once('value', film => {
-              this.fetchFilmsNum += 1
-              if (film.val()) {
-                this.$store.state.community.user.films.all.push(film.val())
-              }
-
-              if (this.$store.state.community.user.films.all.length > idFilms.length - 10) {
-                this.fetch = false
-                this.fetchFilmsNum = 0
-              }
-            })
-          }, 3 * i)
-        } else if (this.$store.state.community.user.films.all.length > idFilms.length - 10) {
-          this.fetch = false
-        }
-      }
+      this.fetch = false
 
       setTimeout(() => {
         this.setCurrentFilmList()
