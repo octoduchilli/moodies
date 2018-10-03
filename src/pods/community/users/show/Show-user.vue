@@ -373,27 +373,26 @@ export default {
       let final = []
       let user = this.__user
       let name = this.__user.filters.name.text
-      let sort = this.__user.filters.sort
+      let sort = this.__user.filters.sort.choose
       let genre = this.__user.filters.genre.items[this.__user.filters.genre.choose].value
       let compareList = this.__user.view.compareList
 
       user.filters.click.forEach(filter => {
-        user.buttons.forEach(film => {
-          let clicked = film.buttons.find(_ => String(_.id) === String(filter.id))
-
-          if (clicked) {
-            let isAlreadyPushed = finded.find(_ => String(_.id) === String(film.id))
-
-            if (!isAlreadyPushed) {
-              let _ = user.films.all.find(_ => String(_.id) === String(film.id))
-
-              if (_) {
-                this.$set(_, 'from', filter.id)
-                finded.push(_)
-              }
-            }
+        finded = finded.concat(user.buttons.filter(film => {
+          if (!finded.find(_ => String(_.id) === String(film.id))) {
+            film.from = filter.id
+            return film.buttons.find(_ => String(_.id) === String(filter.id))
           }
-        })
+        }))
+      })
+
+      finded = finded.map(film => {
+        let f = user.films.all.find(_ => String(_.id) === String(film.id))
+
+        if (f) {
+          f.from = film.from
+          return f
+        }
       })
 
       if (finded.length === 0 && user.filters.click.length === 0) {
@@ -403,98 +402,16 @@ export default {
       }
 
       if (name) {
-        let save = finded
-
-        finded = []
-
-        save.forEach(_ => {
-          let find = _.title.toLowerCase().indexOf(name.toLowerCase())
-
-          if (find !== -1) {
-            finded.push(_)
-          }
-        })
-      }
-
-      if (sort.choose === 0) {
-        finded.sort((a, b) => {
-          if (a.popularity && b.popularity) {
-            return Number(b.popularity) - Number(a.popularity)
-          }
-        })
-      } else if (sort.choose === 1) {
-        finded.sort((a, b) => {
-          if (a.popularity && b.popularity) {
-            return Number(a.popularity) - Number(b.popularity)
-          }
-        })
-      } else if (sort.choose === 2) {
-        finded.sort((a, b) => {
-          if (a.release_date && b.release_date) {
-            return ('' + b.release_date).localeCompare(a.release_date)
-          }
-        })
-      } else if (sort.choose === 3) {
-        finded.sort((a, b) => {
-          if (a.release_date && b.release_date) {
-            return ('' + a.release_date).localeCompare(b.release_date)
-          }
-        })
-      } else if (sort.choose === 4) {
-        finded.sort((a, b) => {
-          if (a.title && b.title) {
-            return ('' + a.title).localeCompare(b.title)
-          }
-        })
-      } else if (sort.choose === 5) {
-        finded.sort((a, b) => {
-          if (a.title && b.title) {
-            return ('' + b.title).localeCompare(a.title)
-          }
-        })
+        finded = this._filterListByText(name, finded)
       }
 
       if (genre) {
-        let save = finded
-
-        finded = []
-
-        save.forEach(_ => {
-          if (_.genres) {
-            let g = _.genres.find(x => String(x.id) === String(genre))
-
-            if (g) {
-              finded.push(_)
-            }
-          }
-        })
+        finded = this._filterListByGenre(genre, finded)
       }
 
-      if (compareList.viewed.on) {
-        let save = finded
-        let currentUserButtonsViewed = this.__currentUser.buttons.filter(_ => _.buttons.find(a => a.id === 1))
+      finded = this._sortList(sort, finded)
 
-        finded = []
-
-        save.forEach(_ => {
-          let f = currentUserButtonsViewed.find(a => String(a.id) === String(_.id))
-          if (f) {
-            finded.push(_)
-          }
-        })
-      } else if (compareList.notViewed.on) {
-        let save = finded
-        let currentUserButtonsViewed = this.__currentUser.buttons.filter(_ => _.buttons.find(a => a.id === 1))
-
-        finded = []
-
-        save.forEach(_ => {
-          let f = currentUserButtonsViewed.find(a => String(a.id) === String(_.id))
-          if (!f) {
-            finded.push(_)
-          }
-        })
-      }
+      finded = this._compareList(compareList, finded)
 
       finded.forEach(_ => {
         final.push({
@@ -507,6 +424,104 @@ export default {
       })
 
       user.films.current = final
+    },
+    _filterListByText (text, array) {
+      let final = []
+
+      array.forEach(_ => {
+        let find = _.title.toLowerCase().indexOf(text.toLowerCase())
+
+        if (find !== -1) {
+          final.push(_)
+        }
+      })
+
+      return final
+    },
+    _filterListByGenre (genre, array) {
+      let final = []
+
+      array.forEach(_ => {
+        if (_.genres) {
+          let g = _.genres.find(x => String(x.id) === String(genre))
+
+          if (g) {
+            final.push(_)
+          }
+        }
+      })
+
+      return final
+    },
+    _sortList (sort, array) {
+      if (sort === 0) {
+        array.sort((a, b) => {
+          if (a.popularity && b.popularity) {
+            return Number(b.popularity) - Number(a.popularity)
+          }
+        })
+      } else if (sort === 1) {
+        array.sort((a, b) => {
+          if (a.popularity && b.popularity) {
+            return Number(a.popularity) - Number(b.popularity)
+          }
+        })
+      } else if (sort === 2) {
+        array.sort((a, b) => {
+          if (a.release_date && b.release_date) {
+            return ('' + b.release_date).localeCompare(a.release_date)
+          }
+        })
+      } else if (sort === 3) {
+        array.sort((a, b) => {
+          if (a.release_date && b.release_date) {
+            return ('' + a.release_date).localeCompare(b.release_date)
+          }
+        })
+      } else if (sort === 4) {
+        array.sort((a, b) => {
+          if (a.title && b.title) {
+            return ('' + a.title).localeCompare(b.title)
+          }
+        })
+      } else if (sort.choose === 5) {
+        array.sort((a, b) => {
+          if (a.title && b.title) {
+            return ('' + b.title).localeCompare(a.title)
+          }
+        })
+      }
+
+      return array
+    },
+    _compareList (compareList, array) {
+      let final = []
+
+      if (compareList.viewed.on) {
+        let currentUserButtonsViewed = this.__currentUser.buttons.filter(_ => _.buttons.find(a => a.id === 1))
+
+        array.forEach(_ => {
+          let f = currentUserButtonsViewed.find(a => String(a.id) === String(_.id))
+
+          if (f) {
+            final.push(_)
+          }
+        })
+      } else if (compareList.notViewed.on) {
+        let currentUserButtonsViewed = this.__currentUser.buttons.filter(_ => _.buttons.find(a => a.id === 1))
+
+        array.forEach(_ => {
+          let f = currentUserButtonsViewed.find(a => String(a.id) === String(_.id))
+
+          if (!f) {
+            final.push(_)
+          }
+        })
+      } else {
+        return array
+      }
+
+      return final
     },
     initActivedFilters () {
       let final = []
