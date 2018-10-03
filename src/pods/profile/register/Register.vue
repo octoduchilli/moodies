@@ -131,7 +131,7 @@ export default {
               }).catch(error => {
                 register.isSubscribing = false
 
-                this.$store.state.user.tryConnect = false
+                this.$store.state.user.status.tryConnect = false
 
                 if (error.code === 'auth/invalid-email') {
                   email.wrong = true

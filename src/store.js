@@ -112,14 +112,16 @@ export default new Vuex.Store({
         rates: []
       },
       user: {
-        uid: null,
-        pseudo: null,
+        infos: {
+          uid: null,
+          pseudo: null
+        },
         films: {
           actived: [],
           current: [],
-          all: []
+          all: [],
+          buttons: []
         },
-        buttons: [],
         view: {
           type: 'poster',
           page: 1,
@@ -288,21 +290,24 @@ export default new Vuex.Store({
       }
     },
     user: {
-      uid: null,
-      email: null,
-      emailVerified: false,
-      firstname: null,
-      lastname: null,
-      pseudo: null,
-      guestTmdb: null,
-      tryConnect: false,
-      fetchFilms: false,
+      status: {
+        tryConnect: false,
+        fetchFilms: false
+      },
+      infos: {
+        uid: null,
+        email: null,
+        firstname: null,
+        lastname: null,
+        pseudo: null,
+        guestTmdb: null
+      },
       films: {
         actived: [],
         current: [],
-        all: []
+        all: [],
+        buttons: []
       },
-      buttons: [],
       view: {
         type: 'poster',
         page: 1
@@ -361,37 +366,38 @@ export default new Vuex.Store({
             }
           ]
         }
-      },
-      personalized: []
+      }
     }
   },
   mutations: {
     user (state, payload) {
-      state.user.uid = payload.uid
-      state.user.email = payload.email
-      state.user.firstname = payload.firstname
-      state.user.lastname = payload.lastname
-      state.user.pseudo = payload.pseudo
-      state.user.guestTmdb = payload.guestTmdb
+      state.user.infos.uid = payload.uid
+      state.user.infos.email = payload.email
+      state.user.infos.firstname = payload.firstname
+      state.user.infos.lastname = payload.lastname
+      state.user.infos.pseudo = payload.pseudo
+      state.user.infos.guestTmdb = payload.guestTmdb
     },
     fullResetUser (state) {
       state.user = {
-        uid: null,
-        email: null,
-        emailVerified: false,
-        firstname: null,
-        lastname: null,
-        pseudo: null,
-        guestTmdb: null,
-        tryConnect: false,
-        fetchFilms: false,
-        fetchFilmsNum: 0,
+        status: {
+          tryConnect: false,
+          fetchFilms: false
+        },
+        infos: {
+          uid: null,
+          email: null,
+          firstname: null,
+          lastname: null,
+          pseudo: null,
+          guestTmdb: null
+        },
         films: {
           actived: [],
           current: [],
-          all: []
+          all: [],
+          buttons: []
         },
-        buttons: [],
         view: {
           type: 'poster',
           page: 1
@@ -420,22 +426,22 @@ export default new Vuex.Store({
             items: [
               {
                 id: 0,
-                name: 'Popularité ↘',
+                name: 'Popularité ↗',
                 value: 'popularity+'
               },
               {
                 id: 1,
-                name: 'Popularité ↗',
+                name: 'Popularité ↘',
                 value: 'popularity-'
               },
               {
                 id: 2,
-                name: 'Date ↘',
+                name: 'Date ↗',
                 value: 'date+'
               },
               {
                 id: 3,
-                name: 'Date ↗',
+                name: 'Date ↘',
                 value: 'date-'
               },
               {
@@ -450,8 +456,7 @@ export default new Vuex.Store({
               }
             ]
           }
-        },
-        personalized: []
+        }
       }
     }
   }

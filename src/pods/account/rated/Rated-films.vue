@@ -2,7 +2,7 @@
   <div class="rated-films column align-center">
     <basic-button class="margin-20" :button="buttons.back"/>
     <h1 class="text-center">Liste de vos votes ({{__rated.list.length}})</h1>
-    <p class="text-center" style="height: 17px">{{fetch || __user.fetchFilms ? 'Récupération des votes...' : null}}</p>
+    <p class="text-center" style="height: 17px">{{fetch || __user.status.fetchFilms ? 'Récupération des votes...' : null}}</p>
     <basic-dropdown class="margin-10" :dropdown="__rated.dropdowns.sort"/>
     <ul class="rated-list basic-list wrap justi-center">
       <li class="rated wrap justi-center align-center margin-10 padding-10" v-for="item in __list" :key="item.id">
@@ -48,7 +48,7 @@ export default {
 
     this.fetch = true
 
-    db.ref(`users/${this.__user.uid}/rate`).once('value', snap => {
+    db.ref(`users/${this.__user.infos.uid}/rate`).once('value', snap => {
       let list = this.__rated.list
       for (let index in snap.val()) {
         let _ = snap.val()[index]
@@ -81,7 +81,7 @@ export default {
       this.fetch = false
     })
 
-    db.ref(`users/${this.__user.uid}/rate`).on('child_changed', _ => {
+    db.ref(`users/${this.__user.infos.uid}/rate`).on('child_changed', _ => {
       let key = _.key
 
       _ = _.val()
@@ -145,9 +145,9 @@ export default {
       let list = this.__rated.list
       let date = new Date()
 
-      db.ref(`users/${this.__user.uid}/rate/${rate.id}`).set(null)
+      db.ref(`users/${this.__user.infos.uid}/rate/${rate.id}`).set(null)
 
-      db.ref(`users/${this.__user.uid}/last/rate`).update({
+      db.ref(`users/${this.__user.infos.uid}/last/rate`).update({
         id: Number(rate.id),
         votedAt: date.toString(),
         value: 0

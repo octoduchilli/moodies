@@ -1,6 +1,6 @@
 <template>
-  <div class="community column align-center" :style="{'padding-top': !__user.pseudo && __user.uid ? null : '60px'}">
-    <header v-if="!__user.pseudo && __user.uid" class="community-header width row justi-center align-center">
+  <div class="community column align-center" :style="{'padding-top': !__user.infos.pseudo && __user.infos.uid ? null : '60px'}">
+    <header v-if="!__user.infos.pseudo && __user.infos.uid" class="community-header width row justi-center align-center">
       <p class="text-center">
         Vous n'avez pas encore de
         <router-link to="/account/informations" class="link padding-10">

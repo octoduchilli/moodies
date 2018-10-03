@@ -1,12 +1,12 @@
 <template>
   <div class="account">
     <header class="flex text-center justi-center align-center account-header">
-      <p v-if="!__user.fetchFilms" class="margin-0 padding-10">
+      <p v-if="!__user.status.fetchFilms" class="margin-0 padding-10">
         {{`${minToMDHM(__totalRuntime)} - ${__user.films.actived.length} films`}}
       </p>
       <p v-else class="margin-0 padding-10">Récupération des films en cours...</p>
     </header>
-    <router-view v-if="__user.uid"/>
+    <router-view v-if="__user.infos.uid"/>
     <h1 class="wait text-center width" v-else>Un instant...</h1>
   </div>
 </template>
@@ -17,9 +17,9 @@ import dateMixin from '@/lib/mixins/date'
 export default {
   mixins: [dateMixin],
   mounted () {
-    if (!this.__user.uid && !this.__user.tryConnect) {
+    if (!this.__user.infos.uid && !this.__user.status.tryConnect) {
       this.$router.push('/profile/sign-in')
-    } else if (this.__user.uid) {
+    } else if (this.__user.infos.uid) {
       this.setCurrentFilmList()
       this.initListWithActivedFilters()
       if (this.__user.filters.actived.length === 0) {
@@ -48,15 +48,15 @@ export default {
     }
   },
   watch: {
-    '__user.tryConnect' (val) {
-      if (!val && !this.__user.uid) {
+    '__user.status.tryConnect' (val) {
+      if (!val && !this.__user.infos.uid) {
         this.$router.push('/profile/sign-in')
       }
     },
     '__user.films.all' (all) {
       this.setCurrentFilmList()
 
-      if (all.length === this.__user.buttons.length) {
+      if (all.length === this.__user.films.buttons.length) {
         this.initListWithActivedFilters()
       }
     },
@@ -94,7 +94,7 @@ export default {
       let genre = this.__user.filters.genre.items[this.__user.filters.genre.choose].value
 
       user.filters.click.forEach(filter => {
-        user.buttons.forEach(film => {
+        user.films.buttons.forEach(film => {
           let clicked = film.buttons.find(_ => String(_.id) === String(filter.id))
 
           if (clicked) {
@@ -257,7 +257,7 @@ export default {
       let final = []
       let activedFilters = this.__user.filters.actived
       let films = this.__user.films.current
-      let buttons = this.__user.buttons
+      let buttons = this.__user.films.buttons
 
       activedFilters.forEach(activedFilter => {
         films.forEach(film => {

@@ -24,7 +24,7 @@
       </div>
       <div class="column">
         <basic-input :class="[save.noName ? 'scale-1_1' : null]" style="margin: 10px; width: 250px; transition: .3s ease;" :input="inputs.name"/>
-        <basic-input :class="[save.noLabel ? 'scale-1_1' : null]" style="margin: 10px; width: 250px; transition: .3s ease;" :maxlength="__user.uid === 'cOjx48K3P2OW3OYL5lyC9Cxm7wy2' ? null : 3" :input="inputs.label"/>
+        <basic-input :class="[save.noLabel ? 'scale-1_1' : null]" style="margin: 10px; width: 250px; transition: .3s ease;" :maxlength="__user.infos.uid === 'cOjx48K3P2OW3OYL5lyC9Cxm7wy2' ? null : 3" :input="inputs.label"/>
       </div>
     </div>
     <basic-button class="margin-20" :button="buttons.save"/>
@@ -159,9 +159,9 @@ export default {
       let date = new Date()
 
       if (label && name) {
-        let id = db.ref(`users/${this.__user.uid}/filters`).push().key
+        let id = db.ref(`users/${this.__user.infos.uid}/filters`).push().key
 
-        db.ref(`users/${this.__user.uid}/filters/${id}`).update({
+        db.ref(`users/${this.__user.infos.uid}/filters/${id}`).update({
           id: id,
           name: name,
           label: label,

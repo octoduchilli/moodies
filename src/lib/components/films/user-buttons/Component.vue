@@ -1,6 +1,6 @@
 <template>
-  <ul :style="{'opacity': __user.uid ? 1 : 0.3}" :class="[flexDirection]" class="user-buttons scrollbar basic-list align-center">
-    <li class="user-button" :class="[`${film.id}-user-button`, {'scale': button.click}]" @click="!__user.uid ? redirectSignIn() : button.link === 'add-64' ? redirectCreateList() : button.click ? (button.click = false, updateDb(button.id, false)) : (button.click = true, updateDb(button.id, true))" @mouseover="button.mouseover = true" @mouseout="button.mouseover = false" v-for="button in __buttons" :key="button.id">
+  <ul :style="{'opacity': __user.infos.uid ? 1 : 0.3}" :class="[flexDirection]" class="user-buttons scrollbar basic-list align-center">
+    <li class="user-button" :class="[`${film.id}-user-button`, {'scale': button.click}]" @click="!__user.infos.uid ? redirectSignIn() : button.link === 'add-64' ? redirectCreateList() : button.click ? (button.click = false, updateDb(button.id, false)) : (button.click = true, updateDb(button.id, true))" @mouseover="button.mouseover = true" @mouseout="button.mouseover = false" v-for="button in __buttons" :key="button.id">
       <div class="circle" :class="[{'scale': button.mouseover && __window.width >= 700}, button.mouseover && __window.width >= 700 ? `veil-background` : null, button.click ? `normal-background` : null]" v-for="n in 2" :key="n['.key']"></div>
       <img v-if="button.link" class="button-img" :src="`/static/img/buttons/${button.link}-black.png`">
       <p v-if="button.label" class="button-label">{{button.label}}</p>
@@ -124,32 +124,32 @@ export default {
         film = _
       })
 
-      db.ref(`users/${user.uid}/films/${film.id}`).set(buttons)
+      db.ref(`users/${user.infos.uid}/films/${film.id}`).set(buttons)
 
       if (idButton === 2) {
-        if (clickButton && user.pseudo) {
+        if (clickButton && user.infos.pseudo) {
           db.ref(`community/last/favorite`).set({
-            uid: this.__user.uid,
+            uid: user.infos.uid,
             id: film.id,
             createdAt: date.toString()
           })
         }
 
-        db.ref(`users/${this.__user.uid}/last/favorite`).set({
+        db.ref(`users/${user.infos.uid}/last/favorite`).set({
           id: film.id,
           createdAt: date.toString(),
           buttons: buttons
         })
       } else {
-        if (user.pseudo) {
+        if (user.infos.pseudo) {
           db.ref(`community/last/film`).set({
-            uid: this.__user.uid,
+            uid: user.infos.uid,
             id: film.id,
             createdAt: date.toString()
           })
         }
 
-        db.ref(`users/${this.__user.uid}/last/film`).set({
+        db.ref(`users/${user.infos.uid}/last/film`).set({
           id: film.id,
           createdAt: date.toString(),
           buttons: buttons
@@ -167,7 +167,7 @@ export default {
       })
     },
     syncButton () {
-      let film = this.__user.buttons.find(_ => String(_.id) === String(this.film.id))
+      let film = this.__user.films.buttons.find(_ => String(_.id) === String(this.film.id))
 
       if (film) {
         let buttons = this.__buttons
