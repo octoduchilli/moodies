@@ -20,6 +20,7 @@ import LogOut from '@/pods/account/log-out/Log-out'
 import RatedFilms from '@/pods/account/rated/Rated-films'
 
 import MyList from '@/pods/account/my-list/My-list'
+import TutorialList from '@/pods/account/my-list/tutorial/Tutorial'
 import CreateList from '@/pods/account/my-list/create/Create'
 import ShowList from '@/pods/account/my-list/show/Show'
 import ModifList from '@/pods/account/my-list/modif/Modif'
@@ -101,6 +102,10 @@ export default new Router({
           path: 'my-list',
           component: MyList,
           children: [
+            {
+              path: 'tutorial',
+              component: TutorialList
+            },
             {
               path: 'create',
               component: CreateList
