@@ -1,10 +1,15 @@
 <template>
   <div class="account">
-    <header class="flex text-center justi-center align-center account-header">
-      <p v-if="!__user.status.fetchFilms" class="margin-0 padding-10">
-        {{`${minToMDHM(__totalRuntime)} - ${__user.films.actived.length} films`}}
-      </p>
-      <p v-else class="margin-0 padding-10">Récupération des films en cours...</p>
+    <header class="text-center flex justi-center align-center account-header">
+      <div v-if="!__user.infos.tutorial">
+        <p v-if="!__user.status.fetchFilms" class="margin-0 padding-10">
+          {{`${minToMDHM(__totalRuntime)} - ${__user.films.actived.length} films`}}
+        </p>
+        <p v-else class="margin-0 padding-10">Récupération des films en cours...</p>
+      </div>
+      <div v-else class="div-tutorial-sentence flex justi-center align-center width height">
+        <p class="margin-0 padding-10">Apprennez à gérer vos listes parsonnalisées avec ce <router-link class="link" to="/account/my-list/tutorial?step=1">tutoriel</router-link></p>
+      </div>
     </header>
     <router-view v-if="__user.infos.uid"/>
     <h1 class="wait text-center width" v-else>Un instant...</h1>
