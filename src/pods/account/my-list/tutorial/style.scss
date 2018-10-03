@@ -1,0 +1,11 @@
+
+
+.pad-left {
+  padding-left: 100px;
+}
+
+@media (max-width: 500px) {
+  .pad-left {
+    padding-left: 0;
+  }
+}
