@@ -1,4 +1,44 @@
+.tutorial-list {
+  padding-bottom: 120px;
 
+  section {
+    padding: 10px;
+
+    border-radius: 20px;
+
+    background: var(--black30);
+
+    display: flex;
+
+    flex-direction: column;
+
+    h1 {
+      font-size: 30px;
+
+      padding-left: 10px;
+    }
+  }
+
+  p {
+    line-height: 25px;
+  }
+
+  span.border {
+    padding: 5px 10px 3px 10px;
+  }
+
+  span.view {
+    border: 1px solid lightgreen;
+  }
+
+  span.favorite {
+    border: 1px solid yellow;
+  }
+
+  span.personalize {
+    border: 1px solid white;
+  }
+}
 
 .pad-left {
   padding-left: 100px;
