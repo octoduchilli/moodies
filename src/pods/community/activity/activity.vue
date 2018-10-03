@@ -10,13 +10,13 @@
         <ul class="list-activity wrap basic-list justi-center">
           <li class="item column align-center margin-10" v-for="activity in last.list" :key="activity.id">
             <div class="row align-center margin-5">
-              <div class="div-pseudo" style="margin-right: 15px">
+              <div class="div-pseudo">
                 <router-link :to="`/users/${activity.user.pseudoLower}`" class="pseudo link flex justi-center align-center">
                   {{activity.user.pseudoBase}}
                 </router-link>
                 <div class="pseudo-bg" :class="`${activity.user.pseudoLower}-pseudo-bg-community`"></div>
               </div>
-              <p style="font-size: 14px">{{activity.sentence}}</p>
+              <p style="font-size: 14px; margin-left: 15px" v-if="activity.value">a noté {{activity.value / 2}} / 5</p>
             </div>
             <router-link class="film link flex align-center justi-center height" :to="`/film/${activity.film.id}`">
               <img :src="w500(activity.film.poster_path)" class="film-poster" onerror="this.src = '/static/img/buttons/picture-white.png'; this.style.opacity = '.2'">
