@@ -300,6 +300,7 @@ export default new Vuex.Store({
         firstname: null,
         lastname: null,
         pseudo: null,
+        tutorial: null,
         guestTmdb: null
       },
       films: {
@@ -376,6 +377,7 @@ export default new Vuex.Store({
       state.user.infos.firstname = payload.firstname
       state.user.infos.lastname = payload.lastname
       state.user.infos.pseudo = payload.pseudo
+      state.user.infos.tutorial = payload.tutorial
       state.user.infos.guestTmdb = payload.guestTmdb
     },
     fullResetUser (state) {
@@ -390,6 +392,7 @@ export default new Vuex.Store({
           firstname: null,
           lastname: null,
           pseudo: null,
+          tutorial: null,
           guestTmdb: null
         },
         films: {
