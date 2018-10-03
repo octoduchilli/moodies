@@ -8,7 +8,9 @@
         <p v-else class="margin-0 padding-10">Récupération des films en cours...</p>
       </div>
       <div v-else class="div-tutorial-sentence flex justi-center align-center width height">
-        <p class="margin-0 padding-10">Apprennez à gérer vos listes parsonnalisées avec ce <router-link class="link" to="/account/my-list/tutorial?step=1">tutoriel</router-link></p>
+        <p v-if="__stepTutorialList === false" class="margin-0 padding-10">Apprennez à gérer vos listes parsonnalisées avec ce <router-link class="link" to="/account/my-list/tutorial?step=1">tutoriel</router-link></p>
+        <p v-else-if="__stepTutorialList === '1'"><span>Étape 1 : Introduction</span></p>
+        <p v-else-if="__stepTutorialList === '2'"><span>Étape 2 : Créer une liste</span></p>
       </div>
     </header>
     <router-view v-if="__user.infos.uid"/>
@@ -50,6 +52,15 @@ export default {
       })
 
       return final
+    },
+    __stepTutorialList () {
+      let route = this.$route
+
+      if (route.path === '/account/my-list/tutorial') {
+        return route.query.step
+      }
+
+      return false
     }
   },
   watch: {
