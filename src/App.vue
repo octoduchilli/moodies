@@ -95,13 +95,13 @@ export default {
 
     this.checkRoute(this.$route)
 
-    this.$store.state.user.tryConnect = true
+    this.$store.state.user.status.tryConnect = true
 
     firebase.auth().onAuthStateChanged(user => {
       if (!user) {
         this.resetUser()
 
-        this.$store.state.user.tryConnect = false
+        this.$store.state.user.status.tryConnect = false
       } else {
         let guestTmdb = null
 
@@ -123,7 +123,7 @@ export default {
 
           this.$store.commit('user', user)
 
-          this.$store.state.user.tryConnect = false
+          this.$store.state.user.status.tryConnect = false
         })
 
         db.ref(`users/${user.uid}/filters`).on('value', filters => {
@@ -165,11 +165,11 @@ export default {
           })
         })
 
-        this.$store.state.user.fetchFilms = true
+        this.$store.state.user.status.fetchFilms = true
 
         db.ref('users/' + user.uid + '/films').on('child_added', async film => {
-          if (!this.$store.state.user.fetchFilms) {
-            let f = this.$store.state.user.buttons.find(_ => String(_.id) === String(film.key))
+          if (!this.$store.state.user.status.fetchFilms) {
+            let f = this.$store.state.films.buttons.find(_ => String(_.id) === String(film.key))
             if (!f) {
               f = this.$store.state.user.films.all.find(_ => String(_.id) === String(film.key))
               if (!f) {
@@ -177,7 +177,7 @@ export default {
                   this.$store.state.user.films.all.push(film.val())
                 })
               }
-              this.$store.state.user.buttons.push({
+              this.$store.state.user.films.buttons.push({
                 id: film.key,
                 buttons: film.val()
               })
@@ -186,20 +186,20 @@ export default {
         })
 
         db.ref('users/' + user.uid + '/films').on('child_changed', film => {
-          let f = this.$store.state.user.buttons.findIndex(_ => String(_.id) === String(film.key))
+          let f = this.$store.state.user.films.buttons.findIndex(_ => String(_.id) === String(film.key))
           if (f !== -1) {
-            this.$store.state.user.buttons[f].buttons = film.val()
+            this.$store.state.user.films.buttons[f].buttons = film.val()
           }
         })
 
         db.ref('users/' + user.uid + '/films').on('child_removed', film => {
-          let f = this.$store.state.user.buttons.findIndex(_ => String(_.id) === String(film.key))
+          let f = this.$store.state.user.films.buttons.findIndex(_ => String(_.id) === String(film.key))
           if (f !== -1) {
             f = this.$store.state.user.films.all.findIndex(_ => String(_.id) === String(film.key))
             if (f !== -1) {
               this.$store.state.user.films.all.splice(f, 1)
             }
-            this.$store.state.user.buttons.splice(f, 1)
+            this.$store.state.user.films.buttons.splice(f, 1)
           }
         })
 
@@ -216,7 +216,7 @@ export default {
             })
           }
 
-          this.$store.state.user.buttons = idFilms
+          this.$store.state.user.films.buttons = idFilms
 
           const filmPromises = idFilms.map(({ id }) => {
             return db.ref(`films/added/${id}`).once('value', film => film)
@@ -228,7 +228,7 @@ export default {
             })
           })
 
-          this.$store.state.user.fetchFilms = false
+          this.$store.state.user.status.fetchFilms = false
 
           db.ref(`community/users/${user.uid}`).update({
             id: user.uid,
@@ -237,10 +237,6 @@ export default {
             activity: Date.now(),
             inverseActivity: 9999999999999 - Date.now()
           })
-        })
-
-        this.httpGet('https://api.themoviedb.org/3/authentication/guest_session/new?api_key=3836694fa8a7ae3ea69b5ff360b3be0b').then(_ => {
-          this.__user.guestTmdb = _.guest_session_id
         })
       }
     })

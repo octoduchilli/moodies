@@ -9,7 +9,7 @@ export default {
   created () {
     this.$store.state.route.selected = 3
 
-    if (this.__user.uid) {
+    if (this.__user.infos.uid) {
       this.$router.push('/account/log-out')
     } else {
       this.$router.push('/profile/sign-in')
@@ -21,7 +21,7 @@ export default {
     }
   },
   watch: {
-    '__user.uid' (uid) {
+    '__user.infos.uid' (uid) {
       if (uid) {
         this.$router.push('/account/log-out')
       } else {

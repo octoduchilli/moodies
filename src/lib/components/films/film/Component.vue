@@ -11,7 +11,7 @@
           <user-buttons :film="film" flexDirection="row"/>
         </div>
         <div class="normal-detail wrap align-center">
-          <div @click="!__user.uid ? $router.push('/profile/sign-in') : null" class="column" :style="{'opacity': __user.uid ? '1' : '.3'}">
+          <div @click="!__user.infos.uid ? $router.push('/profile/sign-in') : null" class="column" :style="{'opacity': __user.infos.uid ? '1' : '.3'}">
             <basic-rate :rate="rate"/>
             <p class="margin-10" v-if="voted">Vote pris en compte !</p>
             <p class="margin-0" style="font-size: 11px; color: grey; margin-left: 10px" v-if="voted">Le total des votes et la note globale du film peut mettre du temps à s'actualiser.</p>
@@ -179,7 +179,7 @@ export default {
     }
   },
   watch: {
-    '__user.uid' () {
+    '__user.infos.uid' () {
       this.checkVote()
     },
     'buttons.trailer.back.click' (click) {
@@ -197,23 +197,23 @@ export default {
         this.voted = false
 
         setTimeout(() => {
-          this.$http.post(`https://api.themoviedb.org/3/movie/${this.film.id}/rating?api_key=3836694fa8a7ae3ea69b5ff360b3be0b&guest_session_id=${this.__user.guestTmdb}`, {value: this.rate.value.base}).then(_ => {
+          this.$http.post(`https://api.themoviedb.org/3/movie/${this.film.id}/rating?api_key=3836694fa8a7ae3ea69b5ff360b3be0b&guest_session_id=${this.__user.infos.guestTmdb}`, {value: this.rate.value.base}).then(_ => {
             this.voted = true
 
-            db.ref(`users/${this.__user.uid}/rate/${this.film.id}`).update({
+            db.ref(`users/${this.__user.infos.uid}/rate/${this.film.id}`).update({
               votedAt: date.toString(),
               value: this.rate.value.base
             })
 
-            db.ref(`users/${this.__user.uid}/last/rate`).update({
+            db.ref(`users/${this.__user.infos.uid}/last/rate`).update({
               id: this.film.id,
               votedAt: date.toString(),
               value: this.rate.value.base
             })
 
-            if (this.__user.pseudo) {
+            if (this.__user.infos.pseudo) {
               db.ref(`community/last/rate`).update({
-                uid: this.__user.uid,
+                uid: this.__user.infos.uid,
                 id: this.film.id,
                 votedAt: date.toString(),
                 value: this.rate.value.base
@@ -238,7 +238,7 @@ export default {
   },
   methods: {
     checkVote () {
-      db.ref(`users/${this.__user.uid}/rate/${this.film.id}`).once('value', snap => {
+      db.ref(`users/${this.__user.infos.uid}/rate/${this.film.id}`).once('value', snap => {
         if (!snap.val()) {
           this.rate.value.mouseover = 0
           this.rate.value.base = 0

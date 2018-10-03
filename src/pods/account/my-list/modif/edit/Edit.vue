@@ -17,7 +17,7 @@
     </div>
     <div class="column">
       <basic-input :class="[save.noName ? 'scale-1_1' : null]" class="margin-10" :input="name"/>
-      <basic-input :class="[save.noLabel ? 'scale-1_1' : null]" class="margin-10" :maxlength="__user.uid === 'cOjx48K3P2OW3OYL5lyC9Cxm7wy2' ? null : 3" :input="label"/>
+      <basic-input :class="[save.noLabel ? 'scale-1_1' : null]" class="margin-10" :maxlength="__user.infos.uid === 'cOjx48K3P2OW3OYL5lyC9Cxm7wy2' ? null : 3" :input="label"/>
     </div>
     <basic-button class="margin-20" :button="buttons.save"/>
     <basic-button class="margin-20" style="color: red; width: 230px" :button="buttons.delete"/>
@@ -178,7 +178,7 @@ export default {
       let date = new Date()
 
       if (label && name) {
-        db.ref(`users/${this.__user.uid}/filters/${id}`).update({
+        db.ref(`users/${this.__user.infos.uid}/filters/${id}`).update({
           name: name,
           label: label,
           color: hex,
@@ -196,13 +196,13 @@ export default {
     },
     delete () {
       let filters = this.__user.filters.created
-      let films = this.__user.buttons
+      let films = this.__user.films.buttons
       let currentFilter = this.currentFilter
 
       for (let i = 1; i <= filters.length; i++) {
         let filter = filters[i - 1]
         if (Number(i) > Number(currentFilter.position)) {
-          db.ref(`users/${this.__user.uid}/filters/${filter.id}`).update({
+          db.ref(`users/${this.__user.infos.uid}/filters/${filter.id}`).update({
             position: i - 1
           })
         }
@@ -212,7 +212,7 @@ export default {
         f.buttons.forEach(_ => {
           if (String(_.id) === String(currentFilter.id)) {
             _.id = null
-            db.ref(`users/${this.__user.uid}/films/${f.id}`).set(f.buttons)
+            db.ref(`users/${this.__user.infos.uid}/films/${f.id}`).set(f.buttons)
 
             if (f.buttons.length === 1) {
               let index = this.__user.films.all.findIndex(a => String(a.id) === String(f.id))
@@ -227,7 +227,7 @@ export default {
 
       this.__user.filters.click = []
 
-      db.ref(`users/${this.__user.uid}/filters/${currentFilter.id}`).set(null).then(() => {
+      db.ref(`users/${this.__user.infos.uid}/filters/${currentFilter.id}`).set(null).then(() => {
         this.$router.go(-1)
       })
     },

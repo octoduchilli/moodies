@@ -1,6 +1,6 @@
 <template>
   <div class="sign-in column justi-center align-center">
-    <div v-if="!__user.tryConnect" class="card margin-10 column justi-center align-center">
+    <div v-if="!__user.status.tryConnect" class="card margin-10 column justi-center align-center">
       <h1 class="text-center">Connectez-vous</h1>
       <div style="margin: 0" class="form-style-7">
         <ul>

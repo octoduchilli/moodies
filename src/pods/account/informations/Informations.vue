@@ -2,18 +2,18 @@
   <div class="informations column justi-center align-center">
     <div class="card margin-10 column justi-center align-center">
       <h1 class="text-center">Informations du compte</h1>
-      <p class="width">Nom : {{__user.firstname}}</p>
-      <p class="width">Prénom : {{__user.lastname}}</p>
-      <p class="width">Email : {{__user.email}}</p>
+      <p class="width">Nom : {{__user.infos.firstname}}</p>
+      <p class="width">Prénom : {{__user.infos.lastname}}</p>
+      <p class="width">Email : {{__user.infos.email}}</p>
       <div class="row align-center width">
         <p class="margin-10" style="margin-left: 0">Pseudo : </p>
         <basic-input maxlength="12" :input="inputs.pseudo"/>
       </div>
-      <div v-if="__user.pseudo" class="width flex justi-between align-center">
+      <div v-if="__user.infos.pseudo" class="width flex justi-between align-center">
         <p class="margin-10" style="margin-left: 0">Compte privé : </p>
         <basic-on-off-button class="margin-20" :button="buttons.private"/>
       </div>
-      <p v-if="__user.pseudo" class="margin-0" style="font-size: 10px; color: grey">Activez l'option ci-dessus pour masquer vôtre profil, vos films et vos filtres.</p>
+      <p v-if="__user.infos.pseudo" class="margin-0" style="font-size: 10px; color: grey">Activez l'option ci-dessus pour masquer vôtre profil, vos films et vos filtres.</p>
       <p style="color: red" class="width text-center" v-if="usedPseudo">Pseudo déjà utilisé</p>
       <p style="color: red" class="width text-center" v-if="notAlphaNum">Pseudo de type Alpha-Numérique uniquement</p>
       <p style="color: lightgreen" class="width text-center" v-if="savedPseudo">Pseudo enregistré</p>
@@ -71,9 +71,9 @@ export default {
   },
   async created () {
     this.$store.state.route.selected = 3
-    this.inputs.pseudo.text = this.__user.pseudo
+    this.inputs.pseudo.text = this.__user.infos.pseudo
 
-    await db.ref(`community/users/${this.__user.uid}`).once('value', snap => {
+    await db.ref(`community/users/${this.__user.infos.uid}`).once('value', snap => {
       snap = snap.val()
 
       this.buttons.private.on = snap.privateAccount || false
@@ -132,7 +132,7 @@ export default {
       this.$router.go(-1)
     },
     'buttons.private.on' (on) {
-      db.ref(`community/users/${this.__user.uid}`).update({
+      db.ref(`community/users/${this.__user.infos.uid}`).update({
         privateAccount: on ? true : null
       })
     }
@@ -142,26 +142,26 @@ export default {
       let used = false
 
       await db.ref('community/users').orderByChild('pseudoLower').equalTo(pseudo.toLowerCase()).once('value', snap => {
-        if (snap.val() && !snap.val()[this.__user.uid]) {
+        if (snap.val() && !snap.val()[this.__user.infos.uid]) {
           used = true
           this.usedPseudo = true
         }
       })
 
       if (!used) {
-        db.ref(`users/${this.__user.uid}/infos`).update({
+        db.ref(`users/${this.__user.infos.uid}/infos`).update({
           pseudo: pseudo
         }).then(() => {
           this.savedPseudo = true
         })
 
-        db.ref(`community/users/${this.__user.uid}`).update({
-          id: this.__user.uid,
+        db.ref(`community/users/${this.__user.infos.uid}`).update({
+          id: this.__user.infos.uid,
           pseudoBase: pseudo,
           pseudoLower: pseudo.toLowerCase(),
           pseudoInverseLower: this.inverseCharCode(pseudo.toLowerCase()),
-          films: this.__user.buttons.length,
-          inverseFilms: 9999999999999 - this.__user.buttons.length,
+          films: this.__user.films.buttons.length,
+          inverseFilms: 9999999999999 - this.__user.films.buttons.length,
           filters: this.__user.filters.created.length,
           inverseFilters: 9999999999999 - this.__user.filters.created.length,
           activity: Date.now(),
@@ -185,11 +185,11 @@ export default {
     saveColors () {
       this.savedColors = false
 
-      db.ref(`community/users/${this.__user.uid}`).update({
-        id: this.__user.uid,
+      db.ref(`community/users/${this.__user.infos.uid}`).update({
+        id: this.__user.infos.uid,
         color: this.color,
-        films: this.__user.buttons.length,
-        inverseFilms: 9999999999999 - this.__user.buttons.length,
+        films: this.__user.films.buttons.length,
+        inverseFilms: 9999999999999 - this.__user.films.buttons.length,
         filters: this.__user.filters.created.length,
         inverseFilters: 9999999999999 - this.__user.filters.created.length,
         activity: Date.now(),
@@ -202,7 +202,7 @@ export default {
 
       let users = this.$store.state.community.users.list
 
-      let f = users.find(_ => String(_.id) === String(this.__user.uid))
+      let f = users.find(_ => String(_.id) === String(this.__user.infos.uid))
 
       if (f) {
         f.color = this.color

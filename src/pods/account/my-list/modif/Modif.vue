@@ -90,10 +90,10 @@ export default {
       }
 
       if (f) {
-        db.ref(`users/${this.__user.uid}/filters/${f.id}`).update({
+        db.ref(`users/${this.__user.infos.uid}/filters/${f.id}`).update({
           position: lastPosition
         })
-        db.ref(`users/${this.__user.uid}/filters/${filter.id}`).update({
+        db.ref(`users/${this.__user.infos.uid}/filters/${filter.id}`).update({
           position: filter.position
         })
       }

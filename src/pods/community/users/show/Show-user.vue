@@ -5,7 +5,7 @@
       <p v-else class="margin-0 padding-10">Récupération des films en cours...</p>
     </header>
     <filters-pannel/>
-    <h1 class="pad-left text-center">{{privateAccount ? 'Profil privé' : fetch ? 'Un instant...' : __user.pseudo ? `Profil de ${__user.pseudo}` : null}}</h1>
+    <h1 class="pad-left text-center">{{privateAccount ? 'Profil privé' : fetch ? 'Un instant...' : __user.infos.pseudo ? `Profil de ${__user.infos.pseudo}` : null}}</h1>
     <p v-if="!privateAccount && lastActivity" class="text-center pad-left"><span style="color: grey; font-size: 10px; margin-right: 5px">Vu pour la dernière fois :</span>{{lastActivity | moment("Do MMMM YYYY à H:mm")}} - <router-link v-if="__showList" style="color: white" :to="`/users/${pseudoLower}/activity`">Voir plus</router-link><router-link v-else style="color: white" :to="`/users/${pseudoLower}`">Voir moins</router-link></p>
     <router-view class="pad-left"/>
     <div class="wrap align-center pad-left justi-center">
@@ -26,8 +26,8 @@
           <basic-on-off-button class="margin-10" :button="buttons.showButtons"/>
         </div>
       </div>
-      <div v-if="__currentUser.uid" class="padding-20 column align-center margin-10" style="border-radius: 10px; background: var(--black40); min-height: 170px;">
-        <p class="text-center" style="margin-top: 0">Comparez la liste de {{__user.pseudo || '...'}} à la vôtre : </p>
+      <div v-if="__currentUser.infos.uid" class="padding-20 column align-center margin-10" style="border-radius: 10px; background: var(--black40); min-height: 170px;">
+        <p class="text-center" style="margin-top: 0">Comparez la liste de {{__user.infos.pseudo || '...'}} à la vôtre : </p>
         <p class="margin-0" style="font-size: 10px; color: grey">Tout les films sont visibles par défaut.</p>
         <div class="row justi-between align-center" style="min-width: 220px">
           <p class="margin-10">VUS</p>
@@ -101,17 +101,17 @@ export default {
     await db.ref('community/users').orderByChild('pseudoLower').equalTo(pseudoLower).once('value', snap => {
       snap.forEach(_ => {
         uid = _.val().id
-        this.__user.pseudo = _.val().pseudoBase
+        this.__user.infos.pseudo = _.val().pseudoBase
         this.privateAccount = _.val().privateAccount
         privateAccount = _.val().privateAccount
         this.lastActivity = _.val().activity
       })
     })
 
-    if (uid !== this.__user.uid && !privateAccount) {
+    if (uid !== this.__user.infos.uid && !privateAccount) {
       this.reset()
 
-      this.__user.uid = uid
+      this.__user.infos.uid = uid
 
       this.fetch = true
 
@@ -148,7 +148,7 @@ export default {
           })
         }
 
-        this.$store.state.community.user.buttons = idFilms
+        this.$store.state.community.user.films.buttons = idFilms
       })
 
       const filmPromises = idFilms.map(({ id }) => {
@@ -169,7 +169,7 @@ export default {
     }
   },
   destroyed () {
-    this.__user.pseudo = null
+    this.__user.infos.pseudo = null
   },
   computed: {
     __window () {
@@ -270,7 +270,7 @@ export default {
       }
     },
     '__user.films.all' (all) {
-      if (all.length === this.__user.buttons.length) {
+      if (all.length === this.__user.films.buttons.length) {
         this.setCurrentFilmList()
         this.initListWithActivedFilters()
       }
@@ -310,7 +310,8 @@ export default {
       this.$store.state.community.user.films = {
         all: [],
         current: [],
-        actived: []
+        actived: [],
+        buttons: []
       }
       this.$store.state.community.user.filters = {
         actived: [],
@@ -378,7 +379,7 @@ export default {
       let compareList = this.__user.view.compareList
 
       user.filters.click.forEach(filter => {
-        finded = finded.concat(user.buttons.filter(film => {
+        finded = finded.concat(user.films.buttons.filter(film => {
           if (!finded.find(_ => String(_.id) === String(film.id))) {
             film.from = filter.id
             return film.buttons.find(_ => String(_.id) === String(filter.id))
@@ -498,7 +499,7 @@ export default {
       let final = []
 
       if (compareList.viewed.on) {
-        let currentUserButtonsViewed = this.__currentUser.buttons.filter(_ => _.buttons.find(a => a.id === 1))
+        let currentUserButtonsViewed = this.__currentUser.films.buttons.filter(_ => _.buttons.find(a => a.id === 1))
 
         array.forEach(_ => {
           let f = currentUserButtonsViewed.find(a => String(a.id) === String(_.id))
@@ -508,7 +509,7 @@ export default {
           }
         })
       } else if (compareList.notViewed.on) {
-        let currentUserButtonsViewed = this.__currentUser.buttons.filter(_ => _.buttons.find(a => a.id === 1))
+        let currentUserButtonsViewed = this.__currentUser.films.buttons.filter(_ => _.buttons.find(a => a.id === 1))
 
         array.forEach(_ => {
           let f = currentUserButtonsViewed.find(a => String(a.id) === String(_.id))
@@ -582,7 +583,7 @@ export default {
       let final = []
       let activedFilters = this.__user.filters.actived
       let films = this.__user.films.current
-      let buttons = this.__user.buttons
+      let buttons = this.__user.films.buttons
 
       activedFilters.forEach(activedFilter => {
         films.forEach(film => {

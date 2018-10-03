@@ -1,7 +1,7 @@
 <template>
   <div class="log-out column justi-center align-center">
     <div class="card margin-10 column justi-center align-center">
-      <h1 class="text-center">{{__user.lastname ? `${__user.lastname}, vous êtes connecté !` : 'Vous êtes connecté !'}}</h1>
+      <h1 class="text-center">{{__user.infos.lastname ? `${__user.infos.lastname}, vous êtes connecté !` : 'Vous êtes connecté !'}}</h1>
       <basic-button style="margin-bottom: 30px; width: 200px" :button="logOut.button"/>
       <router-link style="text-shadow: 0 0 5px black; text-decoration: underline" class="link margin-10" to="/account/informations">Mes informations</router-link>
       <router-link style="text-shadow: 0 0 5px black; text-decoration: underline" class="link margin-10" to="/account/my-list/show">Voir ma liste</router-link>
