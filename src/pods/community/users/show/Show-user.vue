@@ -6,7 +6,7 @@
     </header>
     <filters-pannel/>
     <h1 class="pad-left text-center">{{privateAccount ? 'Profil privé' : fetch ? 'Un instant...' : __user.pseudo ? `Profil de ${__user.pseudo}` : null}}</h1>
-    <p v-if="!privateAccount && lastActivity" class="text-center pad-left"><span style="color: grey; font-size: 10px; margin-right: 5px">Dernière activité :</span>{{lastActivity | moment("Do MMMM YYYY à H:mm")}} - <router-link v-if="__showList" style="color: white" :to="`/users/${pseudoLower}/activity`">Voir plus</router-link><router-link v-else style="color: white" :to="`/users/${pseudoLower}`">Voir moins</router-link></p>
+    <p v-if="!privateAccount && lastActivity" class="text-center pad-left"><span style="color: grey; font-size: 10px; margin-right: 5px">Vu pour la dernière fois :</span>{{lastActivity | moment("Do MMMM YYYY à H:mm")}} - <router-link v-if="__showList" style="color: white" :to="`/users/${pseudoLower}/activity`">Voir plus</router-link><router-link v-else style="color: white" :to="`/users/${pseudoLower}`">Voir moins</router-link></p>
     <router-view class="pad-left"/>
     <div class="wrap align-center pad-left justi-center">
       <div class="column align-center padding-20 margin-10" style="border-radius: 10px; background: var(--black40); min-height: 170px;">
@@ -61,6 +61,8 @@ import { db } from '@/firebase'
 
 import dateMixin from '@/lib/mixins/date'
 
+import genresData from '@/lib/data/genres'
+
 export default {
   mixins: [dateMixin],
   components: {
@@ -106,7 +108,11 @@ export default {
       })
     })
 
-    if (uid && !privateAccount) {
+    if (uid !== this.__user.uid && !privateAccount) {
+      this.reset()
+
+      this.__user.uid = uid
+
       this.fetch = true
 
       await db.ref(`users/${uid}/filters`).once('value', filters => {
@@ -142,19 +148,8 @@ export default {
           })
         }
 
-        if (idFilms.length !== this.$store.state.community.user.buttons.length) {
-          this.$store.state.community.user.films = {
-            all: [],
-            current: [],
-            actived: []
-          }
-          this.$store.state.community.user.view.page = 1
-        }
-
         this.$store.state.community.user.buttons = idFilms
       })
-
-      this.fetch = true
 
       const filmPromises = idFilms.map(({ id }) => {
         return db.ref(`films/added/${id}`).once('value', film => film)
@@ -162,27 +157,15 @@ export default {
 
       await Promise.all(filmPromises).then(films => {
         films.forEach(_ => {
-          this.$store.state.community.user.films.all.push(_.val())
+          if (_) {
+            this.$store.state.community.user.films.all.push(_.val())
+          }
         })
       })
 
       this.fetch = false
-
-      setTimeout(() => {
-        this.setCurrentFilmList()
-        this.initListWithActivedFilters()
-
-        if (this.__user.filters.actived.length === 0) {
-          this.initActivedFilters()
-        }
-      }, 500)
-    } else {
-      this.$store.state.community.user.films = {
-        all: [],
-        current: [],
-        actived: []
-      }
-      this.$store.state.community.user.filters.created = []
+    } else if (privateAccount) {
+      this.reset()
     }
   },
   destroyed () {
@@ -323,6 +306,68 @@ export default {
     }
   },
   methods: {
+    reset () {
+      this.$store.state.community.user.films = {
+        all: [],
+        current: [],
+        actived: []
+      }
+      this.$store.state.community.user.filters = {
+        actived: [],
+        click: [],
+        created: [],
+        name: {
+          text: '',
+          placeholder: 'Titre',
+          type: 'text'
+        },
+        genre: {
+          id: 1,
+          click: false,
+          choose: 0,
+          label: 'Genres',
+          items: genresData
+        },
+        sort: {
+          id: 2,
+          click: false,
+          choose: 0,
+          label: 'Trier',
+          items: [
+            {
+              id: 0,
+              name: 'Popularité ↗',
+              value: 'popularity+'
+            },
+            {
+              id: 1,
+              name: 'Popularité ↘',
+              value: 'popularity-'
+            },
+            {
+              id: 2,
+              name: 'Date ↗',
+              value: 'date+'
+            },
+            {
+              id: 3,
+              name: 'Date ↘',
+              value: 'date-'
+            },
+            {
+              id: 4,
+              name: 'A à Z',
+              value: 'az'
+            },
+            {
+              id: 5,
+              name: 'Z à A',
+              value: 'za'
+            }
+          ]
+        }
+      }
+    },
     setCurrentFilmList () {
       let finded = []
       let final = []
