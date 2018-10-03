@@ -118,7 +118,8 @@ export default {
             pseudo: profile ? profile.pseudo : null,
             firstname: profile ? profile.firstname : null,
             lastname: profile ? profile.lastname : null,
-            guestTmdb: guestTmdb
+            tutorial: profile ? profile.tutorial : null,
+            guestTmdb: guestTmdb,
           }
 
           this.$store.commit('user', user)
