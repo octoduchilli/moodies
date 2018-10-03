@@ -1,5 +1,5 @@
 <template>
-  <div class="my-list row align-start">
+  <div class="my-list row align-start" :style="{'padding-top': $route.fullPath !== '/account/my-list/show' && __window.width < 900 ? '120px' : null}">
     <filters-pannel v-if="$route.fullPath === '/account/my-list/show' || __window.width >= 900"/>
     <router-view/>
   </div>
