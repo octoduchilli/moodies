@@ -21,23 +21,33 @@
   }
 
   .div-tutorial-sentence {
-    background: rgba($color: plum, $alpha: .6);
+    background: rgba($color: plum, $alpha: .8);
+
+    color: white;
+
+    p.black {
+      color: black;
+    }
 
     p {
       line-height: 25px;
 
       span {
-        padding: 8px 10px 5px 10px;
+        padding: 10px;
 
-        font-size: 20px;
+        letter-spacing: 1px;
 
-        background: var(--black10);
+        background: var(--black50);
       }
 
       a {
-        padding: 8px 10px 5px 10px;
+        color: white;
 
-        background: var(--black10);
+        letter-spacing: 1px;
+
+        background: var(--black50);
+
+        text-decoration: underline;
       }
     }
   }
