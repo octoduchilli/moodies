@@ -19,4 +19,36 @@
     top: 150px;
     left: 0;
   }
+
+  .div-tutorial-sentence {
+    background: rgba($color: plum, $alpha: .8);
+
+    color: white;
+
+    p.black {
+      color: black;
+    }
+
+    p {
+      line-height: 25px;
+
+      span {
+        padding: 10px;
+
+        letter-spacing: 1px;
+
+        background: var(--black50);
+      }
+
+      a {
+        color: white;
+
+        letter-spacing: 1px;
+
+        background: var(--black50);
+
+        text-decoration: underline;
+      }
+    }
+  }
 }

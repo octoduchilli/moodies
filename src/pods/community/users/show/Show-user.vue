@@ -27,7 +27,7 @@
         </div>
       </div>
       <div v-if="__currentUser.infos.uid" class="padding-20 column align-center margin-10" style="border-radius: 10px; background: var(--black40); min-height: 170px;">
-        <p class="text-center" style="margin-top: 0">Comparez la liste de {{__user.infos.pseudo || '...'}} à la vôtre : </p>
+        <p class="text-center" style="margin-top: 0">Comparez la liste de {{__user.infos.pseudo || '...'}} à la votre : </p>
         <p class="margin-0" style="font-size: 10px; color: grey">Tout les films sont visibles par défaut.</p>
         <div class="row justi-between align-center" style="min-width: 220px">
           <p class="margin-10">VUS</p>

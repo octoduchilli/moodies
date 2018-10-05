@@ -23,7 +23,7 @@
         </div>
       </div>
       <div class="column">
-        <basic-input :class="[save.noName ? 'scale-1_1' : null]" style="margin: 10px; width: 250px; transition: .3s ease;" :input="inputs.name"/>
+        <basic-input :class="[save.noName ? 'scale-1_1' : null]" style="margin: 10px; width: 250px; transition: .3s ease;" :maxlength="50" :input="inputs.name"/>
         <basic-input :class="[save.noLabel ? 'scale-1_1' : null]" style="margin: 10px; width: 250px; transition: .3s ease;" :maxlength="__user.infos.uid === 'cOjx48K3P2OW3OYL5lyC9Cxm7wy2' ? null : 3" :input="inputs.label"/>
       </div>
     </div>
@@ -46,7 +46,7 @@ export default {
         modif: {
           click: false,
           path: '/account/my-list/modif',
-          label: 'Modifier les listes'
+          label: 'Modifier mes listes'
         },
         save: {
           click: false,

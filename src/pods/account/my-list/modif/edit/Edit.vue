@@ -1,7 +1,7 @@
 <template>
   <div class="edit-list column align-center width">
     <basic-button class="margin-20" :button="buttons.back"/>
-    <p class="text-center" v-if="modified">Modifications enregistrées !</p>
+    <p class="text-center" style="color: red" v-if="__user.infos.tutorial && __currentFilter.id === '9999'">Veuillez valider le tutoriel avant de modifier cette liste !</p>
     <li class="edit-filter basic-list" v-if="currentFilter" :class="{'scale': currentFilter.click}" @click="currentFilter.click ? currentFilter.click = false : currentFilter.click = true" @mouseover="currentFilter.mouseover = true" @mouseout="currentFilter.mouseover = false">
       <div class="circle" :class="[{'scale': currentFilter.mouseover && __window.width >= 700}, currentFilter.mouseover && __window.width >= 700 ? `veil-background` : null, currentFilter.click ? `normal-background` : null]" v-for="n in 2" :key="n['.key']"></div>
       <p v-if="currentFilter.label" class="button-label">{{currentFilter.label}}</p>
@@ -19,7 +19,8 @@
       <basic-input :class="[save.noName ? 'scale-1_1' : null]" class="margin-10" :input="name"/>
       <basic-input :class="[save.noLabel ? 'scale-1_1' : null]" class="margin-10" :maxlength="__user.infos.uid === 'cOjx48K3P2OW3OYL5lyC9Cxm7wy2' ? null : 3" :input="label"/>
     </div>
-    <basic-button class="margin-20" :button="buttons.save"/>
+    <basic-button class="margin-20" v-if="(!__user.infos.tutorial && __currentFilter.id === '9999') || __currentFilter.id !== '9999'" :button="buttons.save"/>
+    <p class="text-center" v-if="modified">Modifications enregistrées !</p>
     <basic-button class="margin-20" style="color: red; width: 230px" :button="buttons.delete"/>
   </div>
 </template>

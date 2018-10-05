@@ -125,7 +125,8 @@ export default {
                     id: id || `${firstname[0].toUpperCase()}${lastname[0].toUpperCase()}`,
                     firstname: firstname,
                     lastname: lastname,
-                    createdAt: date.toString()
+                    createdAt: date.toString(),
+                    tutorial: true
                   })
                 })
               }).catch(error => {

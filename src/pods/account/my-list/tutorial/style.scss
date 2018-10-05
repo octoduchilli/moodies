@@ -1,0 +1,240 @@
+$ocean: rgb(161, 250, 250);
+
+.tutorial-list {
+  padding-bottom: 120px;
+
+  section {
+    padding: 15px;
+
+    margin: 5px 0;
+
+    border-radius: 20px;
+
+    background: var(--black30);
+
+    display: flex;
+
+    flex-direction: column;
+
+    h1, h2 {
+      padding-left: 10px;
+    }
+
+    h1 {
+      font-size: 30px;
+    }
+  }
+
+  p {
+    line-height: 25px;
+  }
+
+  span.border {
+    padding: 5px 10px 3px 10px;
+  }
+
+  span.view {
+    border: 1px solid lightgreen;
+  }
+
+  span.favorite {
+    border: 1px solid yellow;
+  }
+
+  span.personalize {
+    border: 1px solid white;
+  }
+
+  .list-image-tutorial {
+
+    li {
+      padding: 10px;
+
+      background: var(--black10);
+
+      border-radius: 10px;
+
+      transition: .5s ease;
+
+      margin: 20px;
+
+      img {
+        max-height: 400px;
+        max-width: 400px;
+
+        margin: 10px;
+
+        border-radius: 10px;
+      }
+    }
+  }
+
+  .film-item {
+    position: relative;
+
+    width: 130px;
+    height: 200px;
+
+    margin: 10px;
+
+    .item-image {
+      position: absolute;
+      top: 0;
+      left: 0;
+
+      z-index: 2;
+
+      width: 130px;
+      height: 200px;
+
+      border-radius: 3px;
+
+      transition: .5s ease;
+    }
+
+    &:hover, &.hover {
+
+      .item-image {
+        opacity: .2;
+      }
+    }
+  }
+
+  .user-buttons {
+    padding: 0;
+    margin: 0;
+
+    -webkit-overflow-scrolling: touch;
+
+    .user-button {
+      height: 40px;
+      width: 40px;
+
+      min-height: 40px;
+      min-width: 40px;
+
+      position: relative;
+
+      margin: 5px 5px;
+
+      cursor: pointer;
+
+      transition: .4s ease;
+
+      .label {
+        font-size: 14px;
+      }
+
+      .button-img,
+      .circle,
+      .label {
+        position: absolute;
+      }
+
+      .button-img {
+        height: 18px;
+
+        top: 10px;
+        left: 10px;
+      }
+
+      .button-label {
+        position: absolute;
+        top: 0;
+        left: -1px;
+
+        width: 100%;
+        height: 100%;
+        margin: 0;
+
+        font-size: 12px;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        text-align: center;
+
+        color: black;
+
+        z-index: 10;
+      }
+
+      .circle {
+        border-radius: 50%;
+
+        background: $ocean;
+
+        opacity: .3;
+      }
+
+      .circle:nth-child(1) {
+        top: 0;
+        left: 0;
+
+        height: 38px;
+        width: 38px;
+
+        transition: .4s;
+      }
+
+      .circle:nth-child(2) {
+        top: 4px;
+        left: 4px;
+
+        height: 30px;
+        width: 30px;
+
+        transition: .8s;
+      }
+
+      .veil-background {
+        background: var(--button-color-veil-bg);
+
+        opacity: .5;
+      }
+
+      .normal-background {
+        background: var(--button-color-normal-bg);
+
+        opacity: 1;
+      }
+
+      .scale {
+        transform: scale(1.1);
+      }
+    }
+
+    .scale {
+      transform: scale(1.15);
+    }
+  }
+}
+
+.pad-left {
+  padding-left: 100px;
+}
+
+@media (max-width: 500px) {
+  .pad-left {
+    padding-left: 0;
+  }
+
+  .tutorial-list {
+
+    .list-image-tutorial {
+
+      li {
+
+        img {
+          max-height: 260px;
+          max-width: 260px;
+
+          margin: 10px;
+
+          border-radius: 10px;
+        }
+      }
+    }
+  }
+}

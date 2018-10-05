@@ -1,10 +1,19 @@
 <template>
   <div class="account">
-    <header class="flex text-center justi-center align-center account-header">
-      <p v-if="!__user.status.fetchFilms" class="margin-0 padding-10">
-        {{`${minToMDHM(__totalRuntime)} - ${__user.films.actived.length} films`}}
-      </p>
-      <p v-else class="margin-0 padding-10">Récupération des films en cours...</p>
+    <header class="text-center flex justi-center align-center account-header">
+      <div v-if="!__user.infos.tutorial">
+        <p v-if="!__user.status.fetchFilms" class="margin-0 padding-10">
+          {{`${minToMDHM(__totalRuntime)} - ${__user.films.actived.length} films`}}
+        </p>
+        <p v-else class="margin-0 padding-10">Récupération des films en cours...</p>
+      </div>
+      <div v-else class="div-tutorial-sentence flex justi-center align-center width height">
+        <p v-if="__stepTutorialList === false" class="margin-0 padding-10 black">Apprennez à gérer votre liste avec ce <router-link class="link padding-10" to="/account/my-list/tutorial?step=1">tutoriel</router-link></p>
+        <p v-else-if="__stepTutorialList === '1'"><span>Étape 1 : Introduction</span></p>
+        <p v-else-if="__stepTutorialList === '2'"><span>Étape 2 : Créer une liste</span></p>
+        <p v-else-if="__stepTutorialList === '3'"><span>Étape 3 : Gérer une liste</span></p>
+        <p v-else-if="__stepTutorialList === '4'"><span>Étape 4 : Modifier une liste</span></p>
+      </div>
     </header>
     <router-view v-if="__user.infos.uid"/>
     <h1 class="wait text-center width" v-else>Un instant...</h1>
@@ -45,6 +54,15 @@ export default {
       })
 
       return final
+    },
+    __stepTutorialList () {
+      let route = this.$route
+
+      if (route.path === '/account/my-list/tutorial') {
+        return route.query.step
+      }
+
+      return false
     }
   },
   watch: {

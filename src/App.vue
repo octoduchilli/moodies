@@ -118,6 +118,7 @@ export default {
             pseudo: profile ? profile.pseudo : null,
             firstname: profile ? profile.firstname : null,
             lastname: profile ? profile.lastname : null,
+            tutorial: profile ? profile.tutorial : null,
             guestTmdb: guestTmdb
           }
 
