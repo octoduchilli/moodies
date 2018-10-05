@@ -13,7 +13,7 @@
         <p class="margin-10" style="margin-left: 0">Compte privé : </p>
         <basic-on-off-button class="margin-20" :button="buttons.private"/>
       </div>
-      <p v-if="__user.infos.pseudo" class="margin-0" style="font-size: 10px; color: grey">Activez l'option ci-dessus pour masquer vôtre profil, vos films et vos filtres.</p>
+      <p v-if="__user.infos.pseudo" class="margin-0" style="font-size: 10px; color: grey">Activez l'option ci-dessus pour masquer votre profil, vos films et vos filtres.</p>
       <p style="color: red" class="width text-center" v-if="usedPseudo">Pseudo déjà utilisé</p>
       <p style="color: red" class="width text-center" v-if="notAlphaNum">Pseudo de type Alpha-Numérique uniquement</p>
       <p style="color: lightgreen" class="width text-center" v-if="savedPseudo">Pseudo enregistré</p>
