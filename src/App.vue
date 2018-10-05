@@ -119,7 +119,7 @@ export default {
             firstname: profile ? profile.firstname : null,
             lastname: profile ? profile.lastname : null,
             tutorial: profile ? profile.tutorial : null,
-            guestTmdb: guestTmdb,
+            guestTmdb: guestTmdb
           }
 
           this.$store.commit('user', user)
