@@ -46,7 +46,7 @@ export default {
         modif: {
           click: false,
           path: '/account/my-list/modif',
-          label: 'Modifier les listes'
+          label: 'Modifier mes listes'
         },
         save: {
           click: false,
