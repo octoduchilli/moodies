@@ -170,7 +170,7 @@ export default {
 
         db.ref('users/' + user.uid + '/films').on('child_added', async film => {
           if (!this.$store.state.user.status.fetchFilms) {
-            let f = this.$store.state.films.buttons.find(_ => String(_.id) === String(film.key))
+            let f = this.$store.state.user.films.buttons.find(_ => String(_.id) === String(film.key))
             if (!f) {
               f = this.$store.state.user.films.all.find(_ => String(_.id) === String(film.key))
               if (!f) {
